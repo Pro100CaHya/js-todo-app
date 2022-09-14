@@ -173,32 +173,54 @@ const updateAsideNav = () => {
     }
 
     const buttonAddCategoryHandler = function funcButtonAddCategoryHandler() {
-        const inputCategoryFocusOutHandler = function funcInputCategoryFocusOutHandler() {
-            $inputCategory.remove();
-            $asideColumn.append($buttonAddCategory);
-        }
+        const buttonConfirmHandler = function funcButtonConfirmHandler() {
+            $tag.innerText = "";
+            const category = $inputCategory.value;
+            const categoryIsNoEmpty = checkStrForEmpty(category);
 
-        const inputCategoryKeydownHandler = function funcInputCategoryKeydownHandler(e) {
-            const code = e.code;
-
-            if (code === "Enter") {
-                const str = e.target.value
-                const stringIsEmpty = checkStrForEmpty(e.target.value);
-                
-                if (stringIsEmpty) {
-                    setCategories(str);
-                    updateAsideNav();
-                }
+            if (categoryIsNoEmpty) {
+                setCategories(category);
+                updateAsideNav();
+            }
+            else {
+                $tag.innerText = "Empty input!";
+                $asideColumn.append($tag);
             }
         }
 
+        const buttonCancelHandler = function funcButtonCancelHandler() {
+            $inputCategory.remove();
+            $buttonConfirm.remove();
+            $buttonCancel.remove();
+            $tag.remove();
+            $asideColumn.append($buttonAddCategory);
+        }
+
         $buttonAddCategory.remove();
+
         const $inputCategory = document.createElement("input");
         $inputCategory.classList.add("aside__input", "input", "input_size_s", "input_style_white");
+        $inputCategory.setAttribute("type", "text");
+
+        const $buttonConfirm = document.createElement("button");
+        $buttonConfirm.classList.add("aside__button-manage", "button", "button_style_blue", "button_size_xs");
+        $buttonConfirm.innerText = "Confirm";
+
+        const $buttonCancel = document.createElement("button");
+        $buttonCancel.classList.add("aside__button-manage", "button", "button_style_red", "button_size_xs");
+        $buttonCancel.innerText = "Cancel";
+
+        const $tag = document.createElement("span");
+        $tag.classList.add("aside__tag");
+
         $asideColumn.append($inputCategory);
+        $asideColumn.append($buttonConfirm);
+        $asideColumn.append($buttonCancel);
+        $asideColumn.append($tag);
+
         $inputCategory.focus();
-        $inputCategory.addEventListener("focusout", inputCategoryFocusOutHandler);
-        $inputCategory.addEventListener("keydown", inputCategoryKeydownHandler);
+        $buttonConfirm.addEventListener("click", buttonConfirmHandler);
+        $buttonCancel.addEventListener("click", buttonCancelHandler)
     }
 
     $asideNav.innerHTML = ``;

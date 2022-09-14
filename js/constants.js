@@ -69,7 +69,7 @@ const funcDebounce = function debounce(func, ms) {
 }
 
 const checkStrForEmpty = (str) => {
-    if (str.replace(/ +?/g, "") === "") return false;
+    if (str.replace(/ +?/g, "") !== "") return true;
 
-    return true;
+    return false;
 }

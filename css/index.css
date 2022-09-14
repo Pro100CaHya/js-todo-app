@@ -93,6 +93,11 @@ body {
   font-family: inherit;
   cursor: pointer;
 }
+.button_size_xs {
+  padding: 5px 10px;
+  font-size: 1.1rem;
+  border-radius: 10px;
+}
 .button_size_s {
   padding: 10px 20px;
   font-size: 1.25rem;
@@ -101,6 +106,16 @@ body {
 .button_style_transparent {
   border: none;
   background: transparent;
+}
+.button_style_blue {
+  border: 2px solid #62717C;
+  color: #001625;
+  background: #F5FBFF;
+}
+.button_style_red {
+  border: 2px solid #ff0000;
+  color: #680000;
+  background: #ffe7e7;
 }
 .button_active {
   background: #ffffff;
@@ -229,9 +244,21 @@ body {
   text-align: left;
   margin-bottom: 10px;
 }
+.aside__button-manage {
+  display: block;
+  width: 100%;
+  margin-top: 5px;
+  text-align: center;
+}
+.aside__tag {
+  margin-top: 10px;
+  display: block;
+  color: #ff0000;
+  font-size: 1.1rem;
+}
 .aside__input {
-  margin-bottom: 10px;
-  max-width: 100%;
+  margin-bottom: 5px;
+  width: 100%;
 }
 
 .footer {

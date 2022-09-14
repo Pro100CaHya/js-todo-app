@@ -90,6 +90,11 @@ body
 
     &_size
 
+        &_xs
+            padding: 5px 10px
+            font-size: 1.1rem
+            border-radius: 10px
+
         &_s
             padding: 10px 20px
             font-size: 1.25rem
@@ -100,6 +105,16 @@ body
         &_transparent
             border: none
             background: transparent
+
+        &_blue
+            border: 2px solid $blue-4
+            color: $blue-5
+            background: $blue-1
+
+        &_red
+            border: 2px solid $red
+            color: $red-3
+            background: $red-2
 
     &_active
         background: $white
@@ -234,9 +249,21 @@ body
         text-align: left
         margin-bottom: 10px
 
+        &-manage
+            display: block
+            width: 100%
+            margin-top: 5px
+            text-align: center
+
+    &__tag
+        margin-top: 10px
+        display: block
+        color: $red
+        font-size: 1.1rem
+
     &__input
-        margin-bottom: 10px
-        max-width: 100%
+        margin-bottom: 5px
+        width: 100%
 
 .footer
     margin-top: auto
