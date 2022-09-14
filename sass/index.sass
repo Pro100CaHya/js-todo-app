@@ -1,0 +1,491 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap')
+
+@import "mixins.sass"
+@import "variables.sass"
+
+*
+    box-sizing: border-box
+
+    &::-webkit-scrollbar
+        width: 5px
+        height: 5px
+
+    &::-webkit-scrollbar-track
+        background: $blue-3
+
+    &::-webkit-scrollbar-thumb
+        background: $blue-5
+        border-radius: 10px
+
+html, body
+    margin: 0
+
+html
+    height: 100%
+    font-family: "Inter", sans-serif
+    font-size: 14px
+    color: $blue-5
+
+body
+    display: flex
+    flex-direction: column
+    min-height: 100%
+
+.logo
+    width: 94px
+    height: 52px
+
+.content
+    padding-left: 60px
+    padding-right: 60px
+
+    &_padding-y
+
+        &_s
+            padding-top: 20px
+            padding-bottom: 20px
+
+        &_m
+            padding-top: 60px
+            padding-bottom: 60px
+
+.flex
+    display: flex
+
+    &_direction
+
+        &_column
+            flex-direction: column
+
+    &_align
+
+        &_center
+            align-items: center
+
+.wrap
+    max-width: 768px
+    margin: 0 auto
+
+.main
+    flex: 1 1 auto
+    display: flex
+    max-height: 100vh
+
+.title
+    +text(4rem, 700, $blue-5, 150%)
+    margin-bottom: 0
+
+.subtitle
+    +text(2rem, 600, $blue-5, 150%)
+    margin-bottom: 0
+
+    &_color
+
+        &_light
+            color: $blue-4
+
+.button
+    font-family: inherit
+    cursor: pointer
+
+    &_size
+
+        &_s
+            padding: 10px 20px
+            font-size: 1.25rem
+            border-radius: 10px
+
+    &_style
+
+        &_transparent
+            border: none
+            background: transparent
+
+    &_active
+        background: $white
+
+.input
+
+    &_size
+
+        &_s
+            padding: 10px 20px
+            font-size: 1.25rem
+            border-radius: 10px
+
+    &_style
+
+        &_white
+            background: $white
+            color: $blue-5
+            border: 2px solid $blue-4
+            transition: $tr-box-shadow
+
+            &:focus, &:active
+                border-color: $blue-5
+                outline: none
+                box-shadow: $bs-blue
+
+            &:hover
+                box-shadow: $bs-blue
+
+.select
+    cursor: pointer
+
+    &_size
+
+        &_s
+            padding: 10px 20px
+            font-size: 1.25rem
+            border-radius: 10px
+
+    &_style
+
+        &_white
+            background: $white
+            color: $blue-5
+            border: 2px solid $blue-4
+            transition: $tr-box-shadow
+
+            &:focus, &:active
+                border-color: $blue-5
+                outline: none
+                box-shadow: $bs-blue
+
+            &:hover
+                box-shadow: $bs-blue
+
+.header
+    background: $blue-2
+    position: fixed
+    width: 100%
+    z-index: 3
+    transition: $tr-box-shadow
+
+    &__button
+        width: 40px
+        height: 30px
+        position: relative
+        cursor: pointer
+        display: none
+
+        span
+            position: absolute
+            height: 6px
+            width: 50%
+            display: block
+            background: $blue-5
+            transition: $tr-top, $tr-left, $tr-opacity, $tr-transform
+
+            &:fisrt-child, &:nth-child(2)
+                top: 0
+
+            &:nth-child(3), &:nth-child(4)
+                top: 12px
+
+            &:nth-child(5), &:last-child
+                top: 24px
+
+            &:first-child, &:nth-child(3), &:nth-child(5)
+                border-top-left-radius: 3px
+                border-bottom-left-radius: 3px
+                left: 0
+
+            &:nth-child(2), &:nth-child(4), &:nth-child(6)
+                left: 50%
+                border-top-right-radius: 3px
+                border-bottom-right-radius: 3px
+
+    &:hover
+        box-shadow: $bs-blue
+    
+    &__logo
+        margin-left: 15px
+
+    &__subtitle
+        margin-top: 0
+        margin-left: 15px
+
+.aside
+    min-height: 100%
+    background: $blue-2
+    padding: 110px 15px 15px 15px
+    max-width: 240px
+    width: 100%
+    display: flex
+    flex-direction: column
+
+    &__nav
+        padding-right: 10px
+        max-height: 400px
+        flex: 0 1 auto
+        overflow: auto
+
+    &__categories
+        margin-bottom: 15px
+
+    &__column
+        padding-top: 10px
+        padding-right: 10px
+
+    &__button
+        display: block
+        width: 100%
+        text-align: left
+        margin-bottom: 10px
+
+.footer
+    margin-top: auto
+    text-align: center
+
+    &__link
+        font-size: 0
+        margin: 0 5px
+        display: inline-block
+
+    &__icon
+        width: 42px
+        height: 42px
+
+.todo
+    max-height: 100%
+    overflow: auto
+    flex: 1 1 auto
+    background: $blue-1
+
+    &__wrap
+        margin-top: 100px
+
+    &__title
+        margin-top: 0px
+
+    &__row
+        margin-top: 30px
+
+    &__subtitle
+        margin-top: 0px
+
+    &__button
+        margin-left: auto
+        padding: 0
+
+        &-add
+            width: 32px
+            height: 32px
+
+    &__input
+        width: 100%
+        margin-right: 15px
+
+    &__list
+        margin-top: 40px
+
+.list
+
+    &__task
+        margin-bottom: 30px
+
+.task
+    background: $white
+    border-radius: 10px
+    border: 2px solid $blue-3
+    position: relative
+    bottom: 0
+    transition: $tr-box-shadow, $tr-border-color, $tr-bottom
+    padding: 10px 20px
+
+    &:hover
+        border-color: $blue-5
+        box-shadow: $bs-blue-2
+        bottom: 3px
+
+    &__label
+        display: block
+        position: relative
+        min-width: 26px
+        min-height: 26px
+        cursor: pointer
+        margin-right: 10px
+
+        input
+            display: none
+
+        &:hover input ~ .task__checkmark
+            background: $blue-3
+
+        input:checked ~ .task__checkmark
+            background: $blue-4
+
+        input:checked ~ .task__checkmark::after
+            display: block
+
+        .task__checkmark::after
+            left: 8px
+            top: 3px
+            width: 5px
+            height: 10px
+            border: solid $white
+            border-width: 0 3px 3px 0
+            transform: rotate(45deg)
+
+    &__checkmark
+        position: absolute
+        top: 0
+        left: 0
+        width: 26px
+        height: 26px
+        background: $blue-2
+        border: 2px solid $blue-4
+        border-radius: 10px
+
+        &:after
+            content: ""
+            position: absolute
+            display: none
+
+    &__name
+        font-size: 1.5rem
+        margin-top: 0
+        margin-bottom: 0
+        font-weight: 500
+        margin-left: 10px
+        overflow: hidden
+        white-space: nowrap
+        text-overflow: ellipsis
+
+    &__date-block
+        margin-left: auto
+
+    &__date-value
+        font-size: 1.25rem
+        text-transform: uppercase
+        margin-left: 10px
+
+    &__category
+        padding: 2px 3px
+        border-radius: 5px
+        +text(1.25rem, 400, $blue-5, 150%)
+        text-transform: uppercase
+        margin-left: 10px
+        background: $blue-6
+        max-width: 120px
+        overflow: hidden
+        white-space: nowrap
+        text-overflow: ellipsis
+        min-width: 60px
+
+    &__icon
+        width: 26px
+        height: 26px
+
+    &__button
+        padding: 0
+        font-size: 0
+        margin-left: 10px
+
+    &__description
+        +text(1.2rem, 400, $blue-5, 150%)
+        margin-top: 15px
+        margin-bottom: 0
+        display: -webkit-box
+        -webkit-line-clamp: 4
+        -webkit-box-orient: vertical
+        overflow: hidden
+        text-align: justify
+        text-overflow: ellipsis
+
+@media screen and (max-width: 1024px)
+
+    .task
+
+        &__row
+            flex-wrap: wrap
+
+        &__name
+            order: 8
+            width: 100%
+            margin-left: 0
+            margin-top: 15px
+
+@media screen and (max-width: 768px)
+
+    .header
+
+        &__button
+            display: block
+
+            &_active
+
+                span
+
+                    &:first-child, &:last-child
+                        transform: rotate(45deg)
+
+                    &:nth-child(2), &:nth-child(5)
+                        transform: rotate(-45deg)
+
+                    &:nth-child(3), &:nth-child(4)
+                        opacity: 0
+
+                    &:first-child, &:nth-child(2)
+                        top: 7px
+
+                    &:nth-child(5), &:last-child
+                        top: 17px
+
+                    &:first-child, &:nth-child(5)
+                        left: 5px
+
+                    &:nth-child(2), &:last-child
+                        left: 15px
+
+                    &:nth-child(3)
+                        left: -100%
+
+                    &:nth-child(4)
+                        left: 100%
+
+    .aside
+        display: none
+        max-width: 100%
+
+        &_active
+            display: flex
+            flex: 1 1 auto
+
+    .todo
+
+        &_disabled
+            display: none
+
+    .task
+
+        &__date-block
+            display: none
+
+        &__category
+            display: none
+
+        &__column
+            margin-left: auto
+
+@media screen and (max-width: 568px)
+
+    .content
+        padding-left: 20px
+        padding-right: 20px
+
+    .header__subtitle
+        display: none
+
+    .todo
+
+        &__row
+            flex-wrap: wrap
+
+        &__input
+            margin-right: 0
+
+        &__select
+            margin-top: 15px
+            width: 100%
