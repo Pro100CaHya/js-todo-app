@@ -6,9 +6,18 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="A simple ToDo App on Vanilla JavaScript">
+    <link rel="preload" href="img/add.svg" as="image">
+    <link rel="preload" href="img/calendar.svg" as="image">
+    <link rel="preload" href="img/info.svg" as="image">
+    <link rel="preload" href="img/remove.svg" as="image">
     <link rel="preload" href="img/logo.svg" as="image">
     <link rel="preload" href="img/me.webp" as="image">
     <link rel="preload" href="img/github.svg" as="image">
+    <link rel="preload" href="img/priorities/1.svg" as="image">
+    <link rel="preload" href="img/priorities/2.svg" as="image">
+    <link rel="preload" href="img/priorities/3.svg" as="image">
+    <link rel="preload" href="img/priorities/4.svg" as="image">
+    <link rel="preload" href="img/priorities/5.svg" as="image">
     <link rel="preload" href="css/index.min.css" as="style">
     <link rel="shortcut icon" href="img/favicon.svg" type="image/svg">
     <link rel="stylesheet" href="css/index.min.css">
@@ -36,13 +45,8 @@
     </header>
     <main class="main">
         <aside class="aside" data-name="aside">
-            <nav class="aside__nav" data-name="asideNav">
-            </nav>
-            <div class="aside__column">
-                <button class="aside__button aside__button_add button button_size_s button_style_transparent">
-                    + Add category
-                </button>
-            </div>
+            <nav class="aside__nav" data-name="asideNav"></nav>
+            <div class="aside__column" data-name="asideColumn"></div>
             <footer class="footer">
                 <a class="footer__link" href="https://pro100cahya.github.io" target="_blank" rel="noopener noreferrer">
                     <img class="footer__icon" src="img/me.webp" alt="my site" title="It's me :)">

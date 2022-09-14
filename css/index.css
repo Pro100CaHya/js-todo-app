@@ -229,6 +229,10 @@ body {
   text-align: left;
   margin-bottom: 10px;
 }
+.aside__input {
+  margin-bottom: 10px;
+  max-width: 100%;
+}
 
 .footer {
   margin-top: auto;

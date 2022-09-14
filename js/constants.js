@@ -67,3 +67,9 @@ const funcDebounce = function debounce(func, ms) {
         timeout = setTimeout(funcCall, ms);
     }
 }
+
+const checkStrForEmpty = (str) => {
+    if (str.replace(/ +?/g, "") === "") return false;
+
+    return true;
+}

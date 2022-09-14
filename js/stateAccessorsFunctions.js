@@ -2,9 +2,12 @@ const setAside = (isOpen) => state.aside = isOpen;
 
 const setFilter = (filter = {}) => state.filter = {...state.filter, ...filter};
 
-const setCategories = (categories = []) => {
-    const taskCategories = [...new Set(state.tasks.map(elem => elem.category))];
-    state.categories = state.categories.concat(taskCategories);
+const setCategories = (category = null) => {
+    state.categories = [...new Set([ ...state.categories, ...state.tasks.map(elem => elem.category)])];
+
+    if (category !== null) {
+        state.categories = [...new Set([ ...state.categories, category])];
+    }
 }
 
 const setTasks = (tasks = []) => state.tasks = [...state.tasks, ...tasks];

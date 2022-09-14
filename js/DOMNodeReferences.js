@@ -1,4 +1,5 @@
 const $aside = document.querySelector("[data-name='aside']");
+const $asideColumn = document.querySelector("[data-name='asideColumn']");
 const $asideNav = document.querySelector("[data-name='asideNav']");
 const $buttonMenu = document.querySelector("[data-action='manageMenu']");
 const $inputSearch = document.querySelector("[data-action='searchTasks']");
