@@ -35,6 +35,11 @@
 
 ## Поиск заданий без использования декоратора `debounce`
 
+![noDebounce](https://user-images.githubusercontent.com/47455676/190212504-e1b73c35-6f6b-45c7-b723-89644bfb1e18.gif)
+
 ## Поиск заданий с использованием декоратора `debounce`
+
+![debounce](https://user-images.githubusercontent.com/47455676/190212099-06278e66-f57e-4a6b-bbca-fcef6daf2d92.gif)
+
 
 [Вернуться назад](/README.md)
