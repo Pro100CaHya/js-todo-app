@@ -248,3 +248,151 @@ const updateAsideNav = () => {
     $buttonCategory.forEach(button => button.addEventListener("click", buttonCategoryHandler));
     $buttonAddCategory.addEventListener("click", buttonAddCategoryHandler);
 }
+
+const updateModal = () => {
+    const getModalLayout = function funcGetModalLayout() {
+        const htmlLayout = `
+            <div class="window">
+                <button class="window__button-close button button_style_transparent" data-action="closeModal">
+                    <img class="window__button-icon" src="img/remove.svg" alt="close">
+                </button>
+                <h2 class="window__title title">
+                    Add Task
+                </h2>
+                <div class="window__row">
+                    <h2 class="window__subtitle">
+                        Enter name
+                    </h2>
+                    <input data-name="inputName" class="window__input input input_style_white input_size_s" type="text">
+                    <p class="window__label">
+                        Enter name, please (max 64 symbols)
+                    </p>
+                </div>
+                <div class="window__row">
+                    <h2 class="window__subtitle">
+                        Enter description
+                    </h2>
+                    <div data-name="inputDescription" contenteditable="true"
+                        class="window__input-div input input_style_white input_size_s" type="text">
+                    </div>
+                    <p class="window__label">
+                        Enter description, please (max 256 symbols)
+                    </p>
+                </div>
+                <div class="window__row flex">
+                    <div class="window__column">
+                        <h2 class="window__subtitle">
+                            Choose the priority
+                        </h2>
+                        <label class="window__priority flex flex_align_center">
+                            <input type="radio" name="priority" checked>
+                            <span class="window__priority-checkmark"></span>
+                            <div class="window__priority-info flex flex_align_center">
+                                <img class="window__priority-icon" src="img/priorities/1.svg" alt="very-low"
+                                    title="Very Low">
+                                <span class="window__priority-name">
+                                    Very Low
+                                </span>
+                            </div>
+                        </label>
+                        <label class="window__priority flex flex_align_center">
+                            <input type="radio" name="priority">
+                            <span class="window__priority-checkmark"></span>
+                            <div class="window__priority-info flex flex_align_center">
+                                <img class="window__priority-icon" src="img/priorities/2.svg" alt="low" title="Low">
+                                <span class="window__priority-name">
+                                    Low
+                                </span>
+                            </div>
+                        </label>
+                        <label class="window__priority flex flex_align_center">
+                            <input type="radio" name="priority">
+                            <span class="window__priority-checkmark"></span>
+                            <div class="window__priority-info flex flex_align_center">
+                                <img class="window__priority-icon" src="img/priorities/3.svg" alt="medium"
+                                    title="Medium">
+                                <span class="window__priority-name">
+                                    Medium
+                                </span>
+                            </div>
+                        </label>
+                        <label class="window__priority flex flex_align_center">
+                            <input type="radio" name="priority">
+                            <span class="window__priority-checkmark"></span>
+                            <div class="window__priority-info flex flex_align_center">
+                                <img class="window__priority-icon" src="img/priorities/4.svg" alt="very-low"
+                                    title="High">
+                                <span class="window__priority-name">
+                                    High
+                                </span>
+                            </div>
+                        </label>
+                        <label class="window__priority flex flex_align_center">
+                            <input type="radio" name="priority">
+                            <span class="window__priority-checkmark"></span>
+                            <div class="window__priority-info flex flex_align_center">
+                                <img class="window__priority-icon" src="img/priorities/5.svg" alt="very-high"
+                                    title="Very High">
+                                <span class="window__priority-name">
+                                    Very High
+                                </span>
+                            </div>
+                        </label>
+                    </div>
+                    <div class="window__column">
+                        <h2 class="window__subtitle">
+                            Enter deadline (Optional)
+                        </h2>
+                        <input type="text" class="window__input input input_style_white input_size_s"
+                            placeholder="YYYY-MM-DD HH:MM">
+                        <p class="window__label">
+                            Enter deadline, please
+                            <br>
+                            (valid format: YYYY-MM-DD)
+                        </p>
+                    </div>
+                    <div class="window__column">
+                        <h2 class="window__subtitle">
+                            Choose the category
+                        </h2>
+                        <select class="window__select select select_size_s select_style_white">
+                            <option value="default" selected disabled>Sort By</option>
+                            <option value="name">Name</option>
+                            <option value="description">Description</option>
+                            <option value="priority (asc)">Priority (Asc)</option>
+                            <option value="priority (desc)">Priority (Desc)</option>
+                            <option value="deadline">Deadline</option>
+                            <option value="status">Status</option>
+                        </select>
+                        <p class="window__label">
+                            Choose the category, please
+                        </p>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        return htmlLayout;
+    }
+
+    const buttonCloseHandler = function funcButtonCloseHandler() {
+        setModal(false);
+
+        updateModal();
+    }
+
+    if (state.modal) {
+        const $modal = document.createElement("section")
+        $modal.classList.add("modal");
+        $modal.setAttribute("data-name", "modal");
+        $modal.innerHTML = getModalLayout();
+
+        $main.append($modal);
+
+        const $buttonClose = document.querySelector("[data-action='closeModal']");
+        $buttonClose.addEventListener("click", buttonCloseHandler);
+    }
+    else {
+        document.querySelector("[data-name='modal']").remove();
+    }
+}

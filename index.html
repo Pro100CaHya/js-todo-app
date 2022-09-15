@@ -43,7 +43,7 @@
             </div>
         </div>
     </header>
-    <main class="main">
+    <main class="main" data-name="main">
         <aside class="aside" data-name="aside">
             <nav class="aside__nav" data-name="asideNav"></nav>
             <div class="aside__column" data-name="asideColumn"></div>
@@ -66,7 +66,7 @@
                         <h2 class="todo__subtitle subtitle subtitle_color_light">
                             See All
                         </h2>
-                        <button class="todo__button button button_style_transparent">
+                        <button class="todo__button button button_style_transparent" data-action="addTask">
                             <img class="todo__button-add" src="img/add.svg" alt="add" title="Add Task">
                         </button>
                     </div>
@@ -88,7 +88,7 @@
             </div>
         </section>
     </main>
-    <script src="js/constants.js"></script>
+    <script src="js/constantsAndHelpers.js"></script>
     <script src="js/state.js"></script>
     <script src="js/stateAccessorsFunctions.js"></script>
     <script src="js/DOMNodeReferences.js"></script>

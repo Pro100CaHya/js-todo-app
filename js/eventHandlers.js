@@ -19,3 +19,8 @@ const searchInputHandler = (e) => {
     setFilteredTasks();
     updateList();
 }
+
+const buttonAddClickHandler = () => {
+    setModal(true);
+    updateModal();
+}

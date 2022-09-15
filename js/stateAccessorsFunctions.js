@@ -1,5 +1,7 @@
 const setAside = (isOpen) => state.aside = isOpen;
 
+const setModal = (isOpen) => state.modal = isOpen;
+
 const setFilter = (filter = {}) => state.filter = {...state.filter, ...filter};
 
 const setCategories = (category = null) => {

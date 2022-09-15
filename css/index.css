@@ -429,7 +429,141 @@ body {
   text-overflow: ellipsis;
 }
 
+.modal {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 4;
+  background: rgba(0, 0, 0, 0.2117647059);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.window {
+  background: #ffffff;
+  border-radius: 10px;
+  flex: 0 1 auto;
+  padding: 20px;
+  max-width: 768px;
+  overflow: auto;
+}
+.window__button-close {
+  padding: 0;
+  margin-left: auto;
+  display: block;
+  font-size: 0;
+}
+.window__button-icon {
+  width: 48px;
+  height: 48px;
+}
+.window__title {
+  margin-top: 0;
+  text-align: center;
+  font-size: 3rem;
+}
+.window__row {
+  margin-top: 20px;
+  flex-wrap: wrap;
+}
+.window__subtitle {
+  font-weight: 600;
+  margin-top: 0;
+  font-size: 1.5rem;
+  margin-bottom: 0;
+}
+.window__input {
+  width: 100%;
+  margin-top: 10px;
+}
+.window__input-div {
+  overflow: auto;
+  max-height: 100px;
+  margin-top: 10px;
+}
+.window__label {
+  margin-top: 10px;
+  font-size: 1.25rem;
+  color: #ff0000;
+  margin-bottom: 0;
+}
+.window__priority {
+  position: relative;
+  margin-top: 10px;
+  min-width: 26px;
+  min-height: 26px;
+  cursor: pointer;
+}
+.window__priority input {
+  display: none;
+}
+.window__priority:hover input ~ .window__priority-checkmark {
+  background: rgba(98, 113, 124, 0.55);
+}
+.window__priority input:checked ~ .window__priority-checkmark {
+  background: #62717C;
+}
+.window__priority input:checked ~ .window__priority-checkmark::after {
+  display: block;
+}
+.window__priority .window__priority-checkmark::after {
+  top: 3px;
+  left: 3px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #ffffff;
+}
+.window__priority-checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 26px;
+  width: 26px;
+  border-radius: 50%;
+  background: #E9F6FF;
+  border: 2px solid #62717C;
+}
+.window__priority-checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+.window__priority-info {
+  margin-left: 40px;
+}
+.window__priority-icon {
+  width: 26px;
+  height: 26px;
+}
+.window__priority-name {
+  margin-left: 10px;
+  font-size: 1.25rem;
+  margin-top: 0;
+}
+.window__column {
+  margin-right: 20px;
+  margin-top: 20px;
+  flex: 1 1 auto;
+}
+.window__column_right {
+  margin-right: 0;
+}
+.window__select {
+  margin-top: 10px;
+  width: 100%;
+}
+
 @media screen and (max-width: 1024px) {
+  .modal {
+    height: 100vh;
+  }
+  .window {
+    height: 100vh;
+    width: 100%;
+    border-radius: none;
+  }
   .task__row {
     flex-wrap: wrap;
   }
@@ -509,5 +643,11 @@ body {
   .todo__select {
     margin-top: 15px;
     width: 100%;
+  }
+}
+@media screen and (max-height: 800px) {
+  .window {
+    border-radius: 0;
+    height: 100%;
   }
 }/*# sourceMappingURL=index.css.map */

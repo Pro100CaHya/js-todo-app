@@ -1,5 +1,6 @@
 const state = {
     aside: false,
+    modal: false,
     tasks: [],
     filteredTasks: [],
     categories: ["See All"],
