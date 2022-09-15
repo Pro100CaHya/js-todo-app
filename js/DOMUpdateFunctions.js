@@ -176,15 +176,15 @@ const updateAsideNav = () => {
         const buttonConfirmHandler = function funcButtonConfirmHandler() {
             $tag.innerText = "";
             const category = $inputCategory.value;
-            const categoryIsNoEmpty = checkStrForEmpty(category);
+            const categoryIsEmpty = checkStrForEmpty(category);
 
-            if (categoryIsNoEmpty) {
-                setCategories(category);
-                updateAsideNav();
-            }
-            else {
+            if (categoryIsEmpty) {
                 $tag.innerText = "Empty input!";
                 $asideColumn.append($tag);
+            }
+            else {
+                setCategories(category);
+                updateAsideNav();
             }
         }
 
@@ -249,8 +249,27 @@ const updateAsideNav = () => {
     $buttonAddCategory.addEventListener("click", buttonAddCategoryHandler);
 }
 
-const updateModal = () => {
+const closeModal = () => {
+    document.querySelector("[data-name='modal']").remove();
+}
+
+const openModal = () => {
     const getModalLayout = function funcGetModalLayout() {
+        const getCategories = function funcGetCategories() {
+            let options = "";
+            
+            state.categories.filter(category => category !== "See All")
+                            .forEach(category => {
+                                options += `
+                                    <option value="${category}">
+                                        ${category}
+                                    </option>
+                                `
+                            });
+
+            return options;
+        }
+
         const htmlLayout = `
             <div class="window">
                 <button class="window__button-close button button_style_transparent" data-action="closeModal">
@@ -259,25 +278,19 @@ const updateModal = () => {
                 <h2 class="window__title title">
                     Add Task
                 </h2>
-                <div class="window__row">
+                <div class="window__row" data-name="name">
                     <h2 class="window__subtitle">
                         Enter name
                     </h2>
-                    <input data-name="inputName" class="window__input input input_style_white input_size_s" type="text">
-                    <p class="window__label">
-                        Enter name, please (max 64 symbols)
-                    </p>
+                    <input data-name="inputName" class="window__input input input_style_white input_size_s" type="text" data-name="inputName">
                 </div>
-                <div class="window__row">
+                <div class="window__row" data-name="description">
                     <h2 class="window__subtitle">
                         Enter description
                     </h2>
                     <div data-name="inputDescription" contenteditable="true"
-                        class="window__input-div input input_style_white input_size_s" type="text">
+                        class="window__input-div input input_style_white input_size_s" type="text" data-name="inputDescription">
                     </div>
-                    <p class="window__label">
-                        Enter description, please (max 256 symbols)
-                    </p>
                 </div>
                 <div class="window__row flex">
                     <div class="window__column">
@@ -285,7 +298,7 @@ const updateModal = () => {
                             Choose the priority
                         </h2>
                         <label class="window__priority flex flex_align_center">
-                            <input type="radio" name="priority" checked>
+                            <input type="radio" name="priority" checked data-name="inputPriority" data-priority="1">
                             <span class="window__priority-checkmark"></span>
                             <div class="window__priority-info flex flex_align_center">
                                 <img class="window__priority-icon" src="img/priorities/1.svg" alt="very-low"
@@ -296,7 +309,7 @@ const updateModal = () => {
                             </div>
                         </label>
                         <label class="window__priority flex flex_align_center">
-                            <input type="radio" name="priority">
+                            <input type="radio" name="priority" data-name="inputPriority" data-priority="2">
                             <span class="window__priority-checkmark"></span>
                             <div class="window__priority-info flex flex_align_center">
                                 <img class="window__priority-icon" src="img/priorities/2.svg" alt="low" title="Low">
@@ -306,7 +319,7 @@ const updateModal = () => {
                             </div>
                         </label>
                         <label class="window__priority flex flex_align_center">
-                            <input type="radio" name="priority">
+                            <input type="radio" name="priority" data-name="inputPriority" data-priority="3">
                             <span class="window__priority-checkmark"></span>
                             <div class="window__priority-info flex flex_align_center">
                                 <img class="window__priority-icon" src="img/priorities/3.svg" alt="medium"
@@ -317,7 +330,7 @@ const updateModal = () => {
                             </div>
                         </label>
                         <label class="window__priority flex flex_align_center">
-                            <input type="radio" name="priority">
+                            <input type="radio" name="priority" data-name="inputPriority" data-priority="4">
                             <span class="window__priority-checkmark"></span>
                             <div class="window__priority-info flex flex_align_center">
                                 <img class="window__priority-icon" src="img/priorities/4.svg" alt="very-low"
@@ -328,7 +341,7 @@ const updateModal = () => {
                             </div>
                         </label>
                         <label class="window__priority flex flex_align_center">
-                            <input type="radio" name="priority">
+                            <input type="radio" name="priority" data-name="inputPriority" data-priority="5">
                             <span class="window__priority-checkmark"></span>
                             <div class="window__priority-info flex flex_align_center">
                                 <img class="window__priority-icon" src="img/priorities/5.svg" alt="very-high"
@@ -339,35 +352,27 @@ const updateModal = () => {
                             </div>
                         </label>
                     </div>
-                    <div class="window__column">
+                    <div class="window__column" data-name="deadline">
                         <h2 class="window__subtitle">
-                            Enter deadline (Optional)
+                            Enter deadline
                         </h2>
                         <input type="text" class="window__input input input_style_white input_size_s"
-                            placeholder="YYYY-MM-DD HH:MM">
-                        <p class="window__label">
-                            Enter deadline, please
-                            <br>
-                            (valid format: YYYY-MM-DD)
-                        </p>
+                            placeholder="YYYY-MM-DD HH:MM" data-name="inputDeadline">
                     </div>
-                    <div class="window__column">
+                    <div class="window__column" data-name="category">
                         <h2 class="window__subtitle">
                             Choose the category
                         </h2>
-                        <select class="window__select select select_size_s select_style_white">
-                            <option value="default" selected disabled>Sort By</option>
-                            <option value="name">Name</option>
-                            <option value="description">Description</option>
-                            <option value="priority (asc)">Priority (Asc)</option>
-                            <option value="priority (desc)">Priority (Desc)</option>
-                            <option value="deadline">Deadline</option>
-                            <option value="status">Status</option>
+                        <select class="window__select select select_size_s select_style_white" data-name="inputCategory">
+                            <option value="default" selected disabled>Categories</option>
+                            ${getCategories()}
                         </select>
-                        <p class="window__label">
-                            Choose the category, please
-                        </p>
                     </div>
+                </div>
+                <div class="window__row">
+                    <button class="window__button-add button button_style_blue button_size_s" data-action="confirm">
+                        Confirm
+                    </button>
                 </div>
             </div>
         `;
@@ -375,24 +380,111 @@ const updateModal = () => {
         return htmlLayout;
     }
 
+    const buttonConfirmHandler = function funcButtonConfirmHandler() {
+        debugger;
+        const name = $inputName.value;
+        const description = $inputDesription.innerText;
+        const deadline = $inputDeadline.value;
+        const category = $selectCategory.selectedOptions[0].value;
+        const priority = parseInt([...$inputPriority].filter(elem => elem.checked)[0].getAttribute("data-priority"));
+
+        const isNameEmpty = checkStrForEmpty(name);
+        const isDescriptionEmpty = checkStrForEmpty(description);
+        const isDeadlineInvalid = checkStrForValid(deadline, /\d\d\d\d-\d\d-\d\d \d\d:\d\d/gm);
+        const isCategoryNoSelected = category === "default";
+
+        const $labels = document.querySelectorAll(".window__label");
+
+        if ($labels.length !== 0) {
+            $labels.forEach(elem => elem.remove());
+        }
+
+        let taskIsValid = true;
+
+        if (isNameEmpty) {
+            const $label = document.createElement("p");
+            $label.classList.add("window__label");
+            $label.innerText = "Enter name, please (max 64 symbols)";
+            $divName.append($label);
+            taskIsValid = false;
+        }
+
+        if (isDescriptionEmpty) {
+            const $label = document.createElement("p");
+            $label.classList.add("window__label");
+            $label.innerHTML = "Enter description, please (max 256 symbols)";
+            $divDescription.append($label);
+            taskIsValid = false;
+        }
+
+        if (isDeadlineInvalid) {
+            const $label = document.createElement("p");
+            $label.classList.add("window__label");
+            $label.innerHTML = `
+                Enter deadline, please
+                <br>
+                (valid format: YYYY-MM-DD)
+            `;
+            $divDeadline.append($label);
+            taskIsValid = false;
+        }
+
+        if (isCategoryNoSelected) {
+            const $label = document.createElement("p");
+            $label.classList.add("window__label");
+            $label.innerHTML = "Choose the category, please";
+            $divCategory.append($label);
+            taskIsValid = false;
+        }
+
+        if (taskIsValid) {
+            setTasks(
+                [
+                    {
+                        id: Date.now(),
+                        name,
+                        description,
+                        deadline,
+                        isDone: false,
+                        category,
+                        priority
+                    }
+                ]
+            );
+            setFilteredTasks();
+            closeModal();
+            updateList();
+        }
+        else {
+            return;
+        }
+    }
+
     const buttonCloseHandler = function funcButtonCloseHandler() {
-        setModal(false);
+        setModal({ isOpen: false, type: null });
 
-        updateModal();
+        closeModal();
     }
 
-    if (state.modal) {
-        const $modal = document.createElement("section")
-        $modal.classList.add("modal");
-        $modal.setAttribute("data-name", "modal");
-        $modal.innerHTML = getModalLayout();
+    const $modal = document.createElement("section")
+    $modal.classList.add("modal");
+    $modal.setAttribute("data-name", "modal");
+    $modal.innerHTML = getModalLayout();
 
-        $main.append($modal);
+    $main.append($modal);
 
-        const $buttonClose = document.querySelector("[data-action='closeModal']");
-        $buttonClose.addEventListener("click", buttonCloseHandler);
-    }
-    else {
-        document.querySelector("[data-name='modal']").remove();
-    }
+    const $buttonConfirm = document.querySelector("[data-action='confirm']");
+    const $buttonClose = document.querySelector("[data-action='closeModal']");
+    const $divName = document.querySelector("[data-name='name']");
+    const $divDescription = document.querySelector("[data-name='description']");
+    const $divDeadline = document.querySelector("[data-name='deadline']");
+    const $divCategory = document.querySelector("[data-name='category']");
+    const $inputName = document.querySelector("[data-name='inputName']");
+    const $inputDesription = document.querySelector("[data-name='inputDescription']");
+    const $inputPriority = document.querySelectorAll("[data-name='inputPriority']");
+    const $inputDeadline = document.querySelector("[data-name='inputDeadline']");
+    const $selectCategory = document.querySelector("[data-name='inputCategory']");
+
+    $buttonClose.addEventListener("click", buttonCloseHandler);
+    $buttonConfirm.addEventListener("click", buttonConfirmHandler)
 }

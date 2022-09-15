@@ -21,6 +21,6 @@ const searchInputHandler = (e) => {
 }
 
 const buttonAddClickHandler = () => {
-    setModal(true);
-    updateModal();
+    setModal({ isOpen: true, type: "add" });
+    openModal();
 }

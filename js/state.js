@@ -1,6 +1,9 @@
 const state = {
     aside: false,
-    modal: false,
+    modal: {
+        isOpen: false,
+        type: null
+    },
     tasks: [],
     filteredTasks: [],
     categories: ["See All"],
