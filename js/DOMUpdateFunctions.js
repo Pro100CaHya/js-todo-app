@@ -312,13 +312,21 @@ const openModal = (task) => {
             return options;
         }
 
+        const getWindowTitle = function funcGetWindowTitle() {
+            if (state.modal.type === "update") {
+                return "Update Task";
+            }
+
+            return "Add Task";
+        }
+
         const htmlLayout = `
             <div class="window">
                 <button class="window__button-close button button_style_transparent" data-action="closeModal">
                     <img class="window__button-icon" src="img/remove.svg" alt="close">
                 </button>
                 <h2 class="window__title title">
-                    Add Task
+                    ${getWindowTitle()}
                 </h2>
                 <div class="window__row" data-name="name">
                     <h2 class="window__subtitle">
