@@ -5,7 +5,7 @@ const initialTasks = [
         description: "Visit Madrid, Barcelona. Also visit El Classico",
         priority: 1,
         isDone: true,
-        deadline: "2023-10-13T17:27",
+        deadline: "2023-10-13 17:27",
         category: "Travelling"
     },
     {
@@ -14,7 +14,7 @@ const initialTasks = [
         description: "Need more than $2000",
         priority: 3,
         isDone: false,
-        deadline: "2022-11-01T18:00",
+        deadline: "2022-11-01 18:00",
         category: "Hobby"
     },
     {
@@ -23,7 +23,7 @@ const initialTasks = [
         description: null,
         priority: 5,
         isDone: false,
-        deadline: "2022-12-31T21:00",
+        deadline: "2022-12-31 21:00",
         category: "Lifestyle"
     },
     {
@@ -32,7 +32,7 @@ const initialTasks = [
         description: null,
         priority: 2,
         isDone: true,
-        deadline: "2022-09-30T21:00",
+        deadline: "2022-09-30 21:00",
         category: "Hobby"
     },
     {
@@ -41,7 +41,7 @@ const initialTasks = [
         description: null,
         priority: 4,
         isDone: true,
-        deadline: "2022-09-23T21:00",
+        deadline: "2022-09-23 21:00",
         category: "Hobby"
     },
     {
@@ -50,7 +50,7 @@ const initialTasks = [
         description: null,
         priority: 2,
         isDone: true,
-        deadline: "2022-08-23T21:00",
+        deadline: "2022-08-23 21:00",
         category: "Lifestyle"
     }
 ]

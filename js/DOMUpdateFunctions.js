@@ -128,6 +128,14 @@ const updateList = () => {
         return htmlLayout;
     }
 
+    const buttonUpdateHandler = function funcButtonUpdateHandler() {
+        const id = parseInt(this.getAttribute("data-id"));
+        const task = state.tasks.filter(elem => elem.id === id)[0];
+
+        setModal({ isOpen: true, type: "update" });
+        openModal(task);
+    }
+
     const checkboxChangeHandler = (e) => {
         const isDone = e.target.checked;
         const id = parseInt(e.target.getAttribute("data-id"));
@@ -157,9 +165,11 @@ const updateList = () => {
 
     const $checkbox = document.querySelectorAll("[data-action='updateTaskIsDone']");
     const $buttonDelete = document.querySelectorAll("[data-action='deleteTask']");
+    const $buttonUpdate = document.querySelectorAll("[data-action='updateTask']");
 
     $checkbox.forEach(elem => elem.addEventListener("change", checkboxChangeHandler));
     $buttonDelete.forEach(elem => elem.addEventListener("click", buttonDeleteHandler));
+    $buttonUpdate.forEach(elem => elem.addEventListener("click", buttonUpdateHandler));
 }
 
 const updateAsideNav = () => {
@@ -253,7 +263,39 @@ const closeModal = () => {
     document.querySelector("[data-name='modal']").remove();
 }
 
-const openModal = () => {
+const openModal = (task) => {
+    const setInputName = function funcSetInputName() {
+        $inputName.value = task.name;
+    }
+
+    const setInputDescription = function funcSetInputDescription() {
+        $inputDescription.innerText = task.description;
+    }
+
+    const setPriority = function funcSetPriority() {
+        [...$inputPriority].filter(priority => {
+            const taskPriority = parseInt(priority.getAttribute("data-priority"));
+
+            return taskPriority === task.priority;
+        })[0].checked = true;
+    }
+
+    const setInputDeadline = function funcSetInputDeadline() {
+        $inputDeadline.value = task.deadline;
+    }
+
+    const setCategory = function funcSetCategory() {
+        let selectedCategoryId;
+
+        state.categories.forEach((category, index) => {
+            if (category === task.category) {
+                selectedCategoryId = index;
+            }
+        })
+
+        $selectCategory.selectedIndex = selectedCategoryId;
+    }
+
     const getModalLayout = function funcGetModalLayout() {
         const getCategories = function funcGetCategories() {
             let options = "";
@@ -282,18 +324,21 @@ const openModal = () => {
                     <h2 class="window__subtitle">
                         Enter name
                     </h2>
-                    <input data-name="inputName" class="window__input input input_style_white input_size_s" type="text" data-name="inputName">
+                    <input data-name="inputName"
+                        class="window__input input input_style_white input_size_s"
+                        type="text" data-name="inputName">
                 </div>
                 <div class="window__row" data-name="description">
                     <h2 class="window__subtitle">
                         Enter description
                     </h2>
                     <div data-name="inputDescription" contenteditable="true"
-                        class="window__input-div input input_style_white input_size_s" type="text" data-name="inputDescription">
+                        class="window__input-div input input_style_white input_size_s" type="text"
+                        data-name="inputDescription">
                     </div>
                 </div>
                 <div class="window__row flex">
-                    <div class="window__column">
+                    <div class="window__column" data-name="setPriority">
                         <h2 class="window__subtitle">
                             Choose the priority
                         </h2>
@@ -381,9 +426,8 @@ const openModal = () => {
     }
 
     const buttonConfirmHandler = function funcButtonConfirmHandler() {
-        debugger;
         const name = $inputName.value;
-        const description = $inputDesription.innerText;
+        const description = $inputDescription.innerText;
         const deadline = $inputDeadline.value;
         const category = $selectCategory.selectedOptions[0].value;
         const priority = parseInt([...$inputPriority].filter(elem => elem.checked)[0].getAttribute("data-priority"));
@@ -437,7 +481,7 @@ const openModal = () => {
             taskIsValid = false;
         }
 
-        if (taskIsValid) {
+        if (taskIsValid && modalType === "add") {
             setTasks(
                 [
                     {
@@ -455,6 +499,12 @@ const openModal = () => {
             closeModal();
             updateList();
         }
+        else if (taskIsValid && modalType === "update") {
+            updateTask(taskId, { name, description, deadline, category, priority });
+            setFilteredTasks();
+            closeModal();
+            updateList();
+        }
         else {
             return;
         }
@@ -466,7 +516,10 @@ const openModal = () => {
         closeModal();
     }
 
-    const $modal = document.createElement("section")
+    const modalType = state.modal.type;
+    let taskId;
+
+    const $modal = document.createElement("section");
     $modal.classList.add("modal");
     $modal.setAttribute("data-name", "modal");
     $modal.innerHTML = getModalLayout();
@@ -480,11 +533,20 @@ const openModal = () => {
     const $divDeadline = document.querySelector("[data-name='deadline']");
     const $divCategory = document.querySelector("[data-name='category']");
     const $inputName = document.querySelector("[data-name='inputName']");
-    const $inputDesription = document.querySelector("[data-name='inputDescription']");
+    const $inputDescription = document.querySelector("[data-name='inputDescription']");
     const $inputPriority = document.querySelectorAll("[data-name='inputPriority']");
     const $inputDeadline = document.querySelector("[data-name='inputDeadline']");
     const $selectCategory = document.querySelector("[data-name='inputCategory']");
 
     $buttonClose.addEventListener("click", buttonCloseHandler);
-    $buttonConfirm.addEventListener("click", buttonConfirmHandler)
+    $buttonConfirm.addEventListener("click", buttonConfirmHandler);
+
+    if (modalType === "update") {
+        setInputName();
+        setInputDescription();
+        setPriority();
+        setInputDeadline();
+        setCategory();
+        taskId = task.id;
+    }
 }
