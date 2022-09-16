@@ -248,6 +248,10 @@ body
         width: 100%
         text-align: left
         margin-bottom: 10px
+        max-width: 200px
+        white-space: nowrap
+        text-overflow: ellipsis
+        overflow: hidden
 
         &-manage
             display: block
@@ -624,6 +628,9 @@ body
         &_active
             display: flex
             flex: 1 1 auto
+
+        &__button
+            max-width: 100%
 
     .todo
 

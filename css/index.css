@@ -243,6 +243,10 @@ body {
   width: 100%;
   text-align: left;
   margin-bottom: 10px;
+  max-width: 200px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 .aside__button-manage {
   display: block;
@@ -621,6 +625,9 @@ body {
   .aside_active {
     display: flex;
     flex: 1 1 auto;
+  }
+  .aside__button {
+    max-width: 100%;
   }
   .todo_disabled {
     display: none;
