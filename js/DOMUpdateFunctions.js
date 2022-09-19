@@ -163,9 +163,9 @@ const updateList = () => {
         $list.append($taskItem);
     });
 
-    const $checkbox = document.querySelectorAll("[data-action='updateTaskIsDone']");
-    const $buttonDelete = document.querySelectorAll("[data-action='deleteTask']");
-    const $buttonUpdate = document.querySelectorAll("[data-action='updateTask']");
+    const $checkbox = $$("[data-action='updateTaskIsDone']");
+    const $buttonDelete = $$("[data-action='deleteTask']");
+    const $buttonUpdate = $$("[data-action='updateTask']");
 
     $checkbox.forEach(elem => elem.addEventListener("change", checkboxChangeHandler));
     $buttonDelete.forEach(elem => elem.addEventListener("click", buttonDeleteHandler));
@@ -253,14 +253,14 @@ const updateAsideNav = () => {
     $buttonAddCategory.innerText = "+ Add new";
     $asideColumn.append($buttonAddCategory);
 
-    const $buttonCategory = document.querySelectorAll("[data-action='setCategory']");
+    const $buttonCategory = $$("[data-action='setCategory']");
 
     $buttonCategory.forEach(button => button.addEventListener("click", buttonCategoryHandler));
     $buttonAddCategory.addEventListener("click", buttonAddCategoryHandler);
 }
 
 const closeModal = () => {
-    document.querySelector("[data-name='modal']").remove();
+    $("[data-name='modal']").remove();
 }
 
 const openModal = (task) => {
@@ -445,7 +445,7 @@ const openModal = (task) => {
         const isDeadlineInvalid = checkStrForValid(deadline, /\d\d\d\d-\d\d-\d\d \d\d:\d\d/gm);
         const isCategoryNoSelected = category === "default";
 
-        const $labels = document.querySelectorAll(".window__label");
+        const $labels = $$(".window__label");
 
         if ($labels.length !== 0) {
             $labels.forEach(elem => elem.remove());
@@ -534,17 +534,17 @@ const openModal = (task) => {
 
     $main.append($modal);
 
-    const $buttonConfirm = document.querySelector("[data-action='confirm']");
-    const $buttonClose = document.querySelector("[data-action='closeModal']");
-    const $divName = document.querySelector("[data-name='name']");
-    const $divDescription = document.querySelector("[data-name='description']");
-    const $divDeadline = document.querySelector("[data-name='deadline']");
-    const $divCategory = document.querySelector("[data-name='category']");
-    const $inputName = document.querySelector("[data-name='inputName']");
-    const $inputDescription = document.querySelector("[data-name='inputDescription']");
-    const $inputPriority = document.querySelectorAll("[data-name='inputPriority']");
-    const $inputDeadline = document.querySelector("[data-name='inputDeadline']");
-    const $selectCategory = document.querySelector("[data-name='inputCategory']");
+    const $buttonConfirm = $("[data-action='confirm']");
+    const $buttonClose = $("[data-action='closeModal']");
+    const $divName = $("[data-name='name']");
+    const $divDescription = $("[data-name='description']");
+    const $divDeadline = $("[data-name='deadline']");
+    const $divCategory = $("[data-name='category']");
+    const $inputName = $("[data-name='inputName']");
+    const $inputDescription = $("[data-name='inputDescription']");
+    const $inputPriority = $$("[data-name='inputPriority']");
+    const $inputDeadline = $("[data-name='inputDeadline']");
+    const $selectCategory = $("[data-name='inputCategory']");
 
     $buttonClose.addEventListener("click", buttonCloseHandler);
     $buttonConfirm.addEventListener("click", buttonConfirmHandler);
