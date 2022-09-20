@@ -1,10 +1,16 @@
-const setAside = (isOpen) => state.aside = isOpen;
+const setAside = function funcSetAside(isOpen) {
+    state.aside = isOpen;
+}
 
-const setModal = (modalParams) => state.modal = {...modalParams};
+const setModal = function funcSetModal(modalParams) {
+    state.modal = {...modalParams};
+}
 
-const setFilter = (filter = {}) => state.filter = {...state.filter, ...filter};
+const setFilter = function funcSetFilter(filter = {}) {
+    state.filter = {...state.filter, ...filter};
+}
 
-const setCategories = (category = null) => {
+const setCategories = function funcSetCategories(category = null) {
     state.categories = [...new Set([ ...state.categories, ...state.tasks.map(elem => elem.category)])];
 
     if (category !== null) {
@@ -12,9 +18,11 @@ const setCategories = (category = null) => {
     }
 }
 
-const setTasks = (tasks = []) => state.tasks = [...state.tasks, ...tasks];
+const setTasks = function funcSetTasks(tasks = []) {
+    state.tasks = [...state.tasks, ...tasks];
+}
 
-const updateTask = (id, keys) => {
+const updateTask = function funcUpdateTask(id, keys) {
     state.tasks.forEach((task, index) => {
         if (task.id === id) {
             state.tasks.splice(index, 1, {...task, ...keys});
@@ -22,7 +30,7 @@ const updateTask = (id, keys) => {
     });
 }
 
-const deleteTask = (id) => {
+const deleteTask = function funcDeleteTask(id) {
     state.tasks.forEach((task, index) => {
         if (task.id === id) {
             state.tasks.splice(index, 1);
@@ -30,8 +38,8 @@ const deleteTask = (id) => {
     });
 }
 
-const setFilteredTasks = (tasks = state.tasks, filter = state.filter) => {
-    const funcSetSortedTasks = function setSortedTasks(tasks, sort) {
+const setFilteredTasks = function funcSetFilteredTasks(tasks = state.tasks, filter = state.filter) {
+    const setSortedTasks = function funcSetSortedTasks(tasks, sort) {
         if (sort === null) {
            return tasks;
         }
@@ -76,7 +84,7 @@ const setFilteredTasks = (tasks = state.tasks, filter = state.filter) => {
         }
     }
 
-    const funcSetSortedAndSearchedTasks = function setSortedAndSearchedTasks(tasks, searchQuery) {
+    const setSearchedTasks = function funcSetSearchedTasks(tasks, searchQuery) {
         if (searchQuery === null) return tasks;
 
         return tasks.filter(task => task.name
@@ -86,7 +94,7 @@ const setFilteredTasks = (tasks = state.tasks, filter = state.filter) => {
                                         ));
     }
 
-    const funcSetSortedAndSearchedAndFilteredTasks = function setSortedAndSearchedAndFilteredTasks(tasks, category) {
+    const setCategorizedTasks = function funcSetCategorizedTasks(tasks, category) {
         if (category === "See All") {
             return tasks;
         }
@@ -95,9 +103,9 @@ const setFilteredTasks = (tasks = state.tasks, filter = state.filter) => {
         }
     }
 
-    const sortedTasks = funcSetSortedTasks(tasks, filter.sort);
-    const sortedAndSearchedTasks = funcSetSortedAndSearchedTasks(sortedTasks, filter.searchQuery);
-    const sortedAndSearchedAndFilteredTasks = funcSetSortedAndSearchedAndFilteredTasks(sortedAndSearchedTasks, filter.category);
+    const sortedTasks = setSortedTasks(tasks, filter.sort);
+    const searchedTasks = setSearchedTasks(sortedTasks, filter.searchQuery);
+    const categorizedTasks = setCategorizedTasks(searchedTasks, filter.category);
 
-    state.filteredTasks = sortedAndSearchedAndFilteredTasks;
+    state.filteredTasks = categorizedTasks;
 }

@@ -1,5 +1,5 @@
 (function main() {
-    setTasks(initialTasks);
+    setTasks(INITIAL_TASKS);
     setFilteredTasks();
     setCategories();
     updateAsideNav();

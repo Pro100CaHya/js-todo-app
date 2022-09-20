@@ -1,4 +1,4 @@
-const initialTasks = [
+const INITIAL_TASKS = [
     {
         id: 0,
         name: "Visit Spain",
@@ -55,7 +55,7 @@ const initialTasks = [
     }
 ]
 
-const funcDebounce = function debounce(func, ms) {
+const debounce = function funcDebounce(func, ms) {
     let timeout;
 
     return function () {
@@ -68,7 +68,7 @@ const funcDebounce = function debounce(func, ms) {
     }
 }
 
-const checkStrForEmpty = (str) => {
+const checkStrForEmpty = function funcStrForEmpty(str) {
     if (str.replace(/ +?/g, "") === "") {
         return true;
     }
@@ -76,7 +76,7 @@ const checkStrForEmpty = (str) => {
     return false;
 }
 
-const checkStrForValid = (str, reg) => {
+const checkStrForValid = function funcCheckStrForValid(str, reg) {
     if (str.match(reg) === null) {
         return true;
     }
@@ -85,10 +85,10 @@ const checkStrForValid = (str, reg) => {
 }
 
 // Minify "querySelector" functions
-const $ = (selector) => {
+const $ = function funcQuerySelector(selector) {
     return document.querySelector(selector);
 }
 
-const $$ = (selector) => {
+const $$ = function funcQuerySelectorAll(selector) {
     return document.querySelectorAll(selector);
 }

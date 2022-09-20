@@ -1,4 +1,4 @@
-const updateAside = () => {
+const updateAside = function funcUpdateAside() {
     if (state.aside) {
         $aside.classList.add("aside_active");
         $buttonMenu.classList.add("header__button_active")
@@ -11,7 +11,7 @@ const updateAside = () => {
     }
 }
 
-const updateList = () => {
+const updateList = function funcUpdateList() {
     const getTaskLayout = function funcGetTaskLayout(elem) {
         const getTaskCheckbox = function funcGetTaskCheckbox(id, isDone) {
             if (isDone) return `<input type="checkbox" data-action="updateTaskIsDone" checked data-id="${id}">`;
@@ -136,7 +136,7 @@ const updateList = () => {
         openModal(task);
     }
 
-    const checkboxChangeHandler = (e) => {
+    const checkboxChangeHandler = function funcCheckboxChangeHandler(e) {
         const isDone = e.target.checked;
         const id = parseInt(e.target.getAttribute("data-id"));
 
@@ -145,7 +145,7 @@ const updateList = () => {
         updateList();
     }
 
-    const buttonDeleteHandler = function buttonDeleteHandler() {
+    const buttonDeleteHandler = function funcButtonDeleteHandler() {
         const id = parseInt(this.getAttribute("data-id"));
 
         deleteTask(id);
@@ -172,7 +172,7 @@ const updateList = () => {
     $buttonUpdate.forEach(elem => elem.addEventListener("click", buttonUpdateHandler));
 }
 
-const updateAsideNav = () => {
+const updateAsideNav = function funcUpdateAsideNav() {
     const buttonCategoryHandler = function funcButtonCategoryHandler() {
         const category = this.getAttribute("data-name");
 
@@ -234,7 +234,7 @@ const updateAsideNav = () => {
     }
 
     $asideNav.innerHTML = ``;
-    state.categories.forEach(category => {
+    state.categories.forEach((category) => {
         const $taskItem = document.createElement("button");
         $taskItem.classList.add("aside__button", "button", "button_size_s", "button_style_transparent");
         if (category === state.filter.category) {
@@ -255,15 +255,15 @@ const updateAsideNav = () => {
 
     const $buttonCategory = $$("[data-action='setCategory']");
 
-    $buttonCategory.forEach(button => button.addEventListener("click", buttonCategoryHandler));
+    $buttonCategory.forEach((button) => button.addEventListener("click", buttonCategoryHandler));
     $buttonAddCategory.addEventListener("click", buttonAddCategoryHandler);
 }
 
-const closeModal = () => {
+const closeModal = function funcCloseModal() {
     $("[data-name='modal']").remove();
 }
 
-const openModal = (task) => {
+const openModal = function funcOpenModal(task) {
     const setInputName = function funcSetInputName() {
         $inputName.value = task.name;
     }
@@ -273,7 +273,7 @@ const openModal = (task) => {
     }
 
     const setPriority = function funcSetPriority() {
-        [...$inputPriority].filter(priority => {
+        [...$inputPriority].filter((priority) => {
             const taskPriority = parseInt(priority.getAttribute("data-priority"));
 
             return taskPriority === task.priority;
@@ -300,8 +300,8 @@ const openModal = (task) => {
         const getCategories = function funcGetCategories() {
             let options = "";
             
-            state.categories.filter(category => category !== "See All")
-                            .forEach(category => {
+            state.categories.filter((category) => category !== "See All")
+                            .forEach((category) => {
                                 options += `
                                     <option value="${category}">
                                         ${category}
@@ -438,7 +438,7 @@ const openModal = (task) => {
         const description = $inputDescription.innerText;
         const deadline = $inputDeadline.value;
         const category = $selectCategory.selectedOptions[0].value;
-        const priority = parseInt([...$inputPriority].filter(elem => elem.checked)[0].getAttribute("data-priority"));
+        const priority = parseInt([...$inputPriority].filter((elem) => elem.checked)[0].getAttribute("data-priority"));
 
         const isNameEmpty = checkStrForEmpty(name);
         const isDescriptionEmpty = checkStrForEmpty(description);
@@ -448,7 +448,7 @@ const openModal = (task) => {
         const $labels = $$(".window__label");
 
         if ($labels.length !== 0) {
-            $labels.forEach(elem => elem.remove());
+            $labels.forEach((elem) => elem.remove());
         }
 
         let taskIsValid = true;

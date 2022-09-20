@@ -1,10 +1,10 @@
-const buttonMenuClickHandler = () => {
+const buttonMenuClickHandler = function funcButtonMenuClickHandler() {
     setAside(!state.aside);
 
     updateAside();
 }
 
-const selectSortChangeHandler = (e) => {
+const selectSortChangeHandler = function funcSelectSortChangeHandler(e) {
     const sort = e.target.value;
 
     setFilter({sort});
@@ -12,7 +12,7 @@ const selectSortChangeHandler = (e) => {
     updateList();
 }
 
-const searchInputHandler = (e) => {
+const searchInputHandler = function funcSearchInputHandler(e) {
     const searchQuery = e.target.value;
 
     setFilter({searchQuery});
@@ -20,7 +20,7 @@ const searchInputHandler = (e) => {
     updateList();
 }
 
-const buttonAddClickHandler = () => {
+const buttonAddClickHandler = function funcButtonAddClickHandler() {
     setModal({ isOpen: true, type: "add" });
     openModal();
 }

@@ -1,4 +1,4 @@
-const initialTasks = [
+const INITIAL_TASKS = [
     {
         id: 0,
         name: "Visit Spain",
@@ -55,7 +55,7 @@ const initialTasks = [
     }
 ]
 
-const funcDebounce = function debounce(func, ms) {
+const debounce = function funcDebounce(func, ms) {
     let timeout;
 
     return function () {
@@ -68,7 +68,7 @@ const funcDebounce = function debounce(func, ms) {
     }
 }
 
-const checkStrForEmpty = (str) => {
+const checkStrForEmpty = function funcStrForEmpty(str) {
     if (str.replace(/ +?/g, "") === "") {
         return true;
     }
@@ -76,7 +76,7 @@ const checkStrForEmpty = (str) => {
     return false;
 }
 
-const checkStrForValid = (str, reg) => {
+const checkStrForValid = function funcCheckStrForValid(str, reg) {
     if (str.match(reg) === null) {
         return true;
     }
@@ -85,11 +85,11 @@ const checkStrForValid = (str, reg) => {
 }
 
 // Minify "querySelector" functions
-const $ = (selector) => {
+const $ = function funcQuerySelector(selector) {
     return document.querySelector(selector);
 }
 
-const $$ = (selector) => {
+const $$ = function funcQuerySelectorAll(selector) {
     return document.querySelectorAll(selector);
 }
 
@@ -109,13 +109,19 @@ const state = {
     }
 }
 
-const setAside = (isOpen) => state.aside = isOpen;
+const setAside = function funcSetAside(isOpen) {
+    state.aside = isOpen;
+}
 
-const setModal = (modalParams) => state.modal = {...modalParams};
+const setModal = function funcSetModal(modalParams) {
+    state.modal = {...modalParams};
+}
 
-const setFilter = (filter = {}) => state.filter = {...state.filter, ...filter};
+const setFilter = function funcSetFilter(filter = {}) {
+    state.filter = {...state.filter, ...filter};
+}
 
-const setCategories = (category = null) => {
+const setCategories = function funcSetCategories(category = null) {
     state.categories = [...new Set([ ...state.categories, ...state.tasks.map(elem => elem.category)])];
 
     if (category !== null) {
@@ -123,9 +129,11 @@ const setCategories = (category = null) => {
     }
 }
 
-const setTasks = (tasks = []) => state.tasks = [...state.tasks, ...tasks];
+const setTasks = function funcSetTasks(tasks = []) {
+    state.tasks = [...state.tasks, ...tasks];
+}
 
-const updateTask = (id, keys) => {
+const updateTask = function funcUpdateTask(id, keys) {
     state.tasks.forEach((task, index) => {
         if (task.id === id) {
             state.tasks.splice(index, 1, {...task, ...keys});
@@ -133,7 +141,7 @@ const updateTask = (id, keys) => {
     });
 }
 
-const deleteTask = (id) => {
+const deleteTask = function funcDeleteTask(id) {
     state.tasks.forEach((task, index) => {
         if (task.id === id) {
             state.tasks.splice(index, 1);
@@ -141,8 +149,8 @@ const deleteTask = (id) => {
     });
 }
 
-const setFilteredTasks = (tasks = state.tasks, filter = state.filter) => {
-    const funcSetSortedTasks = function setSortedTasks(tasks, sort) {
+const setFilteredTasks = function funcSetFilteredTasks(tasks = state.tasks, filter = state.filter) {
+    const setSortedTasks = function funcSetSortedTasks(tasks, sort) {
         if (sort === null) {
            return tasks;
         }
@@ -187,7 +195,7 @@ const setFilteredTasks = (tasks = state.tasks, filter = state.filter) => {
         }
     }
 
-    const funcSetSortedAndSearchedTasks = function setSortedAndSearchedTasks(tasks, searchQuery) {
+    const setSearchedTasks = function funcSetSearchedTasks(tasks, searchQuery) {
         if (searchQuery === null) return tasks;
 
         return tasks.filter(task => task.name
@@ -197,7 +205,7 @@ const setFilteredTasks = (tasks = state.tasks, filter = state.filter) => {
                                         ));
     }
 
-    const funcSetSortedAndSearchedAndFilteredTasks = function setSortedAndSearchedAndFilteredTasks(tasks, category) {
+    const setCategorizedTasks = function funcSetCategorizedTasks(tasks, category) {
         if (category === "See All") {
             return tasks;
         }
@@ -206,11 +214,11 @@ const setFilteredTasks = (tasks = state.tasks, filter = state.filter) => {
         }
     }
 
-    const sortedTasks = funcSetSortedTasks(tasks, filter.sort);
-    const sortedAndSearchedTasks = funcSetSortedAndSearchedTasks(sortedTasks, filter.searchQuery);
-    const sortedAndSearchedAndFilteredTasks = funcSetSortedAndSearchedAndFilteredTasks(sortedAndSearchedTasks, filter.category);
+    const sortedTasks = setSortedTasks(tasks, filter.sort);
+    const searchedTasks = setSearchedTasks(sortedTasks, filter.searchQuery);
+    const categorizedTasks = setCategorizedTasks(searchedTasks, filter.category);
 
-    state.filteredTasks = sortedAndSearchedAndFilteredTasks;
+    state.filteredTasks = categorizedTasks;
 }
 
 const $aside = $("[data-name='aside']");
@@ -224,7 +232,7 @@ const $main = $("[data-name='main']")
 const $selectSort = $("[data-action='sortTasks']");
 const $todo = $("[data-name='todo']");
 
-const updateAside = () => {
+const updateAside = function funcUpdateAside() {
     if (state.aside) {
         $aside.classList.add("aside_active");
         $buttonMenu.classList.add("header__button_active")
@@ -237,7 +245,7 @@ const updateAside = () => {
     }
 }
 
-const updateList = () => {
+const updateList = function funcUpdateList() {
     const getTaskLayout = function funcGetTaskLayout(elem) {
         const getTaskCheckbox = function funcGetTaskCheckbox(id, isDone) {
             if (isDone) return `<input type="checkbox" data-action="updateTaskIsDone" checked data-id="${id}">`;
@@ -362,7 +370,7 @@ const updateList = () => {
         openModal(task);
     }
 
-    const checkboxChangeHandler = (e) => {
+    const checkboxChangeHandler = function funcCheckboxChangeHandler(e) {
         const isDone = e.target.checked;
         const id = parseInt(e.target.getAttribute("data-id"));
 
@@ -371,7 +379,7 @@ const updateList = () => {
         updateList();
     }
 
-    const buttonDeleteHandler = function buttonDeleteHandler() {
+    const buttonDeleteHandler = function funcButtonDeleteHandler() {
         const id = parseInt(this.getAttribute("data-id"));
 
         deleteTask(id);
@@ -398,7 +406,7 @@ const updateList = () => {
     $buttonUpdate.forEach(elem => elem.addEventListener("click", buttonUpdateHandler));
 }
 
-const updateAsideNav = () => {
+const updateAsideNav = function funcUpdateAsideNav() {
     const buttonCategoryHandler = function funcButtonCategoryHandler() {
         const category = this.getAttribute("data-name");
 
@@ -460,7 +468,7 @@ const updateAsideNav = () => {
     }
 
     $asideNav.innerHTML = ``;
-    state.categories.forEach(category => {
+    state.categories.forEach((category) => {
         const $taskItem = document.createElement("button");
         $taskItem.classList.add("aside__button", "button", "button_size_s", "button_style_transparent");
         if (category === state.filter.category) {
@@ -481,15 +489,15 @@ const updateAsideNav = () => {
 
     const $buttonCategory = $$("[data-action='setCategory']");
 
-    $buttonCategory.forEach(button => button.addEventListener("click", buttonCategoryHandler));
+    $buttonCategory.forEach((button) => button.addEventListener("click", buttonCategoryHandler));
     $buttonAddCategory.addEventListener("click", buttonAddCategoryHandler);
 }
 
-const closeModal = () => {
+const closeModal = function funcCloseModal() {
     $("[data-name='modal']").remove();
 }
 
-const openModal = (task) => {
+const openModal = function funcOpenModal(task) {
     const setInputName = function funcSetInputName() {
         $inputName.value = task.name;
     }
@@ -499,7 +507,7 @@ const openModal = (task) => {
     }
 
     const setPriority = function funcSetPriority() {
-        [...$inputPriority].filter(priority => {
+        [...$inputPriority].filter((priority) => {
             const taskPriority = parseInt(priority.getAttribute("data-priority"));
 
             return taskPriority === task.priority;
@@ -526,8 +534,8 @@ const openModal = (task) => {
         const getCategories = function funcGetCategories() {
             let options = "";
             
-            state.categories.filter(category => category !== "See All")
-                            .forEach(category => {
+            state.categories.filter((category) => category !== "See All")
+                            .forEach((category) => {
                                 options += `
                                     <option value="${category}">
                                         ${category}
@@ -664,7 +672,7 @@ const openModal = (task) => {
         const description = $inputDescription.innerText;
         const deadline = $inputDeadline.value;
         const category = $selectCategory.selectedOptions[0].value;
-        const priority = parseInt([...$inputPriority].filter(elem => elem.checked)[0].getAttribute("data-priority"));
+        const priority = parseInt([...$inputPriority].filter((elem) => elem.checked)[0].getAttribute("data-priority"));
 
         const isNameEmpty = checkStrForEmpty(name);
         const isDescriptionEmpty = checkStrForEmpty(description);
@@ -674,7 +682,7 @@ const openModal = (task) => {
         const $labels = $$(".window__label");
 
         if ($labels.length !== 0) {
-            $labels.forEach(elem => elem.remove());
+            $labels.forEach((elem) => elem.remove());
         }
 
         let taskIsValid = true;
@@ -785,13 +793,13 @@ const openModal = (task) => {
     }
 }
 
-const buttonMenuClickHandler = () => {
+const buttonMenuClickHandler = function funcButtonMenuClickHandler() {
     setAside(!state.aside);
 
     updateAside();
 }
 
-const selectSortChangeHandler = (e) => {
+const selectSortChangeHandler = function funcSelectSortChangeHandler(e) {
     const sort = e.target.value;
 
     setFilter({sort});
@@ -799,7 +807,7 @@ const selectSortChangeHandler = (e) => {
     updateList();
 }
 
-const searchInputHandler = (e) => {
+const searchInputHandler = function funcSearchInputHandler(e) {
     const searchQuery = e.target.value;
 
     setFilter({searchQuery});
@@ -807,7 +815,7 @@ const searchInputHandler = (e) => {
     updateList();
 }
 
-const buttonAddClickHandler = () => {
+const buttonAddClickHandler = function funcButtonAddClickHandler() {
     setModal({ isOpen: true, type: "add" });
     openModal();
 }
@@ -815,12 +823,12 @@ const buttonAddClickHandler = () => {
 $buttonAdd.addEventListener("click", buttonAddClickHandler);
 $buttonMenu.addEventListener("click", buttonMenuClickHandler);
 $selectSort.addEventListener("change", selectSortChangeHandler);
-$inputSearch.addEventListener("input", funcDebounce(searchInputHandler, 500));
+$inputSearch.addEventListener("input", debounce(searchInputHandler, 500));
 
 (function main() {
-    setTasks(initialTasks);
+    setTasks(INITIAL_TASKS);
     setFilteredTasks();
     setCategories();
     updateAsideNav();
     updateList();
-})();
+}());
