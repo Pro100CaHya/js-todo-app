@@ -391,6 +391,8 @@ body
     &__date-block
         margin-left: auto
         padding-left: 10px
+        max-width: 160px
+        width: 100%
 
     &__date-value
         font-size: 1.25rem
@@ -402,13 +404,18 @@ body
         border-radius: 5px
         +text(1.25rem, 400, $blue-5, 150%)
         text-transform: uppercase
-        margin-left: 10px
         background: $blue-6
-        max-width: 120px
+        max-width: 130px
+        min-width: 60px
+        display: inline-block
         overflow: hidden
         white-space: nowrap
         text-overflow: ellipsis
-        min-width: 60px
+
+    &__category-block
+        margin-left: 10px
+        max-width: 130px
+        width: 100%
 
     &__icon
         width: 26px
@@ -642,7 +649,7 @@ body
         &__date-block
             display: none
 
-        &__category
+        &__category-block
             display: none
 
         &__column

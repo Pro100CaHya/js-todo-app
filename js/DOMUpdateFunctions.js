@@ -48,35 +48,25 @@ const updateList = function funcUpdateList() {
         }
 
         const getTaskDate = function funcGetTaskDate(deadline) {
-            const secondsLast = new Date(deadline).getTime() - Date.now();
-            const month = new Date(deadline).getMonth();
-            const day31Months = [0, 2, 4, 6, 7, 9, 11];
-            let days = 30;
+            const today = new Date(
+                            `${
+                                new Date(Date.now())
+                            }`
+                            .slice(4, 15)
+                        );
+            const dateDeadline = new Date(deadline);
+            const daysLast = (dateDeadline - today) / (1000 * 60 * 60 * 24);
 
-            if (day31Months.includes(month)) days += 1;
-
-            if (secondsLast >= 1000 * 60 * 60 * 24 * 365) {
-                return "year+";
+            if (daysLast > 1) {
+                return `${dateDeadline}`.slice(4, 15);
             }
 
-            if (secondsLast >= 1000 * 60 * 60 * 24 * days) {
-                return "month+";
+            if (daysLast === 1) {
+                return "tomorrow";
             }
 
-            if (secondsLast >= 1000 * 60 * 60 * 24 * 7) {
-                return "week+";
-            }
-
-            if (secondsLast >= 1000 * 60 * 60 * 24) {
-                return "day+";
-            }
-
-            if (secondsLast >= 1000 * 60 * 60) {
-                return "hour+";
-            }
-
-            if (secondsLast >= 1000 * 60) {
-                return "minute+";
+            if (daysLast === 0) {
+                return "today";
             }
 
             else {
@@ -108,9 +98,11 @@ const updateList = function funcUpdateList() {
                     <img class="task__icon" src="img/calendar.svg" alt="Calendar">
                     <span class="task__date-value">${getTaskDate(elem.deadline)}</span>
                 </div>
-                <span class="task__category">
-                    ${elem.category}
-                </span>
+                <div class="task__category-block">
+                    <span class="task__category">
+                        ${elem.category}
+                    </span>
+                </div>
                 <div class="task__column">
                     <button class="task__button button button_style_transparent" data-id="${elem.id}"
                         data-action="updateTask">
@@ -281,7 +273,7 @@ const openModal = function funcOpenModal(task) {
     }
 
     const setInputDeadline = function funcSetInputDeadline() {
-        $inputDeadline.value = task.deadline;
+        $inputDeadline.value = task.deadline.slice(0, 10);
     }
 
     const setCategory = function funcSetCategory() {
@@ -410,7 +402,7 @@ const openModal = function funcOpenModal(task) {
                             Enter deadline
                         </h2>
                         <input type="text" class="window__input input input_style_white input_size_s"
-                            placeholder="YYYY-MM-DD HH:MM" data-name="inputDeadline">
+                            placeholder="YYYY-MM-DD" data-name="inputDeadline" maxlength="10">
                     </div>
                     <div class="window__column" data-name="category">
                         <h2 class="window__subtitle">
@@ -434,6 +426,7 @@ const openModal = function funcOpenModal(task) {
     }
 
     const buttonConfirmHandler = function funcButtonConfirmHandler() {
+        debugger
         const name = $inputName.value;
         const description = $inputDescription.innerText;
         const deadline = $inputDeadline.value;
@@ -442,7 +435,7 @@ const openModal = function funcOpenModal(task) {
 
         const isNameEmpty = checkStrForEmpty(name);
         const isDescriptionEmpty = checkStrForEmpty(description);
-        const isDeadlineInvalid = checkStrForValid(deadline, /\d\d\d\d-\d\d-\d\d \d\d:\d\d/gm);
+        const isDeadlineInvalid = checkStrForValid(deadline, /\d\d\d\d-\d\d-\d\d/gm);
         const isCategoryNoSelected = category === "default";
 
         const $labels = $$(".window__label");
@@ -496,7 +489,7 @@ const openModal = function funcOpenModal(task) {
                         id: Date.now(),
                         name,
                         description,
-                        deadline,
+                        deadline: `${deadline} 00:00`,
                         isDone: false,
                         category,
                         priority
@@ -508,7 +501,7 @@ const openModal = function funcOpenModal(task) {
             updateList();
         }
         else if (taskIsValid && modalType === "update") {
-            updateTask(taskId, { name, description, deadline, category, priority });
+            updateTask(taskId, { name, description, deadline: `${deadline} 00:00`, category, priority });
             setFilteredTasks();
             closeModal();
             updateList();

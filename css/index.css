@@ -388,6 +388,8 @@ body {
 .task__date-block {
   margin-left: auto;
   padding-left: 10px;
+  max-width: 160px;
+  width: 100%;
 }
 .task__date-value {
   font-size: 1.25rem;
@@ -402,13 +404,18 @@ body {
   font-color: #001625;
   line-height: 150%;
   text-transform: uppercase;
-  margin-left: 10px;
   background: #8bcfff;
-  max-width: 120px;
+  max-width: 130px;
+  min-width: 60px;
+  display: inline-block;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-  min-width: 60px;
+}
+.task__category-block {
+  margin-left: 10px;
+  max-width: 130px;
+  width: 100%;
 }
 .task__icon {
   width: 26px;
@@ -635,7 +642,7 @@ body {
   .task__date-block {
     display: none;
   }
-  .task__category {
+  .task__category-block {
     display: none;
   }
   .task__column {
