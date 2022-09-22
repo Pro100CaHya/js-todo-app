@@ -246,7 +246,9 @@ const updateAsideNav = function funcUpdateAsideNav() {
     $asideColumn.append($buttonAddCategory);
 
     const $buttonCategory = $$("[data-action='setCategory']");
+    const $todoSubtitle = $("[data-name='subtitle']");
 
+    $todoSubtitle.innerText = state.filter.category;
     $buttonCategory.forEach((button) => button.addEventListener("click", buttonCategoryHandler));
     $buttonAddCategory.addEventListener("click", buttonAddCategoryHandler);
 }
