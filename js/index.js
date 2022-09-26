@@ -132,19 +132,16 @@ const setTasks = function funcSetTasks(tasks = []) {
 }
 
 const updateTask = function funcUpdateTask(id, keys) {
-    state.tasks.forEach((task, index) => {
-        if (task.id === id) {
-            state.tasks.splice(index, 1, {...task, ...keys});
-        }
-    });
+    const task = state.tasks.find(task => task.id === id);
+    const taskId = state.tasks.findIndex(task => task.id === id);
+
+    state.tasks.splice(taskId, 1, {...task, ...keys});
 }
 
 const deleteTask = function funcDeleteTask(id) {
-    state.tasks.forEach((task, index) => {
-        if (task.id === id) {
-            state.tasks.splice(index, 1);
-        }
-    });
+    const taskId = state.tasks.findIndex(task => task.id === id);
+
+    state.tasks.splice(taskId, 1);
 }
 
 const setFilteredTasks = function funcSetFilteredTasks(tasks = state.tasks, filter = state.filter) {
