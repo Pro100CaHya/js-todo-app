@@ -10,12 +10,8 @@ const setFilter = function funcSetFilter(filter = {}) {
     state.filter = {...state.filter, ...filter};
 }
 
-const setCategories = function funcSetCategories(category = null) {
-    state.categories = [...new Set([ ...state.categories, ...state.tasks.map(elem => elem.category)])];
-
-    if (category !== null) {
-        state.categories = [...new Set([ ...state.categories, category])];
-    }
+const setCategories = function funcSetCategories(categories = []) {
+    state.categories = [...new Set([ ...state.categories, ...categories])];
 }
 
 const setTasks = function funcSetTasks(tasks = []) {
@@ -79,7 +75,7 @@ const setFilteredTasks = function funcSetFilteredTasks(tasks = state.tasks, filt
                             const firstDescription = firstTask.description || "";
                             const secondDescription = secondTask.description || "";
 
-                            return firstDescription - secondDescription;
+                            return secondDescription.localeCompare(firstDescription);
                         })
         }
     }

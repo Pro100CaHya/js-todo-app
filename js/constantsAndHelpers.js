@@ -77,7 +77,6 @@ const checkStrForEmpty = function funcStrForEmpty(str) {
 }
 
 const checkStrForValid = function funcCheckStrForInvalid(str, reg) {
-    debugger
     if (str.match(reg) === null) {
         return true;
     }

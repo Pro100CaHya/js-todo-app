@@ -6,7 +6,9 @@ const state = {
     },
     tasks: [],
     filteredTasks: [],
-    categories: ["See All"],
+    categories: [
+        "See All"
+    ],
     filter: {
         sort: null,
         searchQuery: null,

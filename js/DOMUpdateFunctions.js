@@ -177,15 +177,20 @@ const updateAsideNav = function funcUpdateAsideNav() {
     const buttonAddCategoryHandler = function funcButtonAddCategoryHandler() {
         const buttonConfirmHandler = function funcButtonConfirmHandler() {
             $tag.innerText = "";
-            const category = $inputCategory.value;
-            const categoryIsEmpty = checkStrForEmpty(category);
+            const categoryName = $inputCategory.value;
+            const categoryNameIsEmpty = checkStrForEmpty(categoryName);
+            const categoryIsValid = (categoryNameIsEmpty
+                || !!(state.categories.find(category => category === categoryName)));
 
-            if (categoryIsEmpty) {
-                $tag.innerText = "Empty input!";
+            if (categoryIsValid) {
+                $tag.innerText = categoryNameIsEmpty === true
+                    ? "Empty input"
+                    : "Input category already exists";
+
                 $asideColumn.append($tag);
             }
             else {
-                setCategories(category);
+                setCategories([categoryName]);
                 updateAsideNav();
             }
         }
@@ -428,7 +433,6 @@ const openModal = function funcOpenModal(task) {
     }
 
     const buttonConfirmHandler = function funcButtonConfirmHandler() {
-        debugger
         const name = $inputName.value;
         const description = $inputDescription.innerText;
         const deadline = $inputDeadline.value;

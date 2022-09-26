@@ -1,7 +1,7 @@
 (function main() {
     setTasks(INITIAL_TASKS);
     setFilteredTasks();
-    setCategories();
+    setCategories(state.tasks.map(task => task.category));
     updateAsideNav();
     updateList();
 })();

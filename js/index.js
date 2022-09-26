@@ -77,7 +77,6 @@ const checkStrForEmpty = function funcStrForEmpty(str) {
 }
 
 const checkStrForValid = function funcCheckStrForInvalid(str, reg) {
-    debugger
     if (str.match(reg) === null) {
         return true;
     }
@@ -102,7 +101,9 @@ const state = {
     },
     tasks: [],
     filteredTasks: [],
-    categories: ["See All"],
+    categories: [
+        "See All"
+    ],
     filter: {
         sort: null,
         searchQuery: null,
@@ -122,12 +123,8 @@ const setFilter = function funcSetFilter(filter = {}) {
     state.filter = {...state.filter, ...filter};
 }
 
-const setCategories = function funcSetCategories(category = null) {
-    state.categories = [...new Set([ ...state.categories, ...state.tasks.map(elem => elem.category)])];
-
-    if (category !== null) {
-        state.categories = [...new Set([ ...state.categories, category])];
-    }
+const setCategories = function funcSetCategories(categories = []) {
+    state.categories = [...new Set([ ...state.categories, ...categories])];
 }
 
 const setTasks = function funcSetTasks(tasks = []) {
@@ -191,7 +188,7 @@ const setFilteredTasks = function funcSetFilteredTasks(tasks = state.tasks, filt
                             const firstDescription = firstTask.description || "";
                             const secondDescription = secondTask.description || "";
 
-                            return firstDescription - secondDescription;
+                            return secondDescription.localeCompare(firstDescription);
                         })
         }
     }
@@ -412,15 +409,20 @@ const updateAsideNav = function funcUpdateAsideNav() {
     const buttonAddCategoryHandler = function funcButtonAddCategoryHandler() {
         const buttonConfirmHandler = function funcButtonConfirmHandler() {
             $tag.innerText = "";
-            const category = $inputCategory.value;
-            const categoryIsEmpty = checkStrForEmpty(category);
+            const categoryName = $inputCategory.value;
+            const categoryNameIsEmpty = checkStrForEmpty(categoryName);
+            const categoryIsValid = (categoryNameIsEmpty
+                || !!(state.categories.find(category => category === categoryName)));
 
-            if (categoryIsEmpty) {
-                $tag.innerText = "Empty input!";
+            if (categoryIsValid) {
+                $tag.innerText = categoryNameIsEmpty === true
+                    ? "Empty input"
+                    : "Input category already exists";
+
                 $asideColumn.append($tag);
             }
             else {
-                setCategories(category);
+                setCategories([categoryName]);
                 updateAsideNav();
             }
         }
@@ -663,7 +665,6 @@ const openModal = function funcOpenModal(task) {
     }
 
     const buttonConfirmHandler = function funcButtonConfirmHandler() {
-        debugger
         const name = $inputName.value;
         const description = $inputDescription.innerText;
         const deadline = $inputDeadline.value;
@@ -824,7 +825,7 @@ $inputSearch.addEventListener("input", debounce(searchInputHandler, 500));
 (function main() {
     setTasks(INITIAL_TASKS);
     setFilteredTasks();
-    setCategories();
+    setCategories(state.tasks.map(task => task.category));
     updateAsideNav();
     updateList();
 })();
