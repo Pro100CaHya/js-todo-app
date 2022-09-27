@@ -15,7 +15,7 @@
 
 Уровень: intern/junior (стажёр/джуниор)¹
 
-Время выполнения: ~ 7-8 часов
+Время выполнения: ~ 14-18 часов
 
 Дизайн: разработан самостоятельно. [Ссылка на макет Figma](https://www.figma.com/file/5FW5ddxWrasGHr7hxQLzg6/js-todo-app?node-id=1%3A2)
 
