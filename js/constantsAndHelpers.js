@@ -53,6 +53,25 @@ const INITIAL_TASKS = [
         deadline: "2022-08-23 00:00",
         category: "Lifestyle"
     }
+];
+
+const INITIAL_CATEGORIES = [
+    {
+        id: 0,
+        name: "See All"
+    },
+    {
+        id: 1,
+        name: "Travelling"
+    },
+    {
+        id: 2,
+        name: "Hobby"
+    },
+    {
+        id: 3,
+        name: "Lifestyle"
+    }
 ]
 
 const debounce = function funcDebounce(func, ms) {

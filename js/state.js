@@ -1,17 +1,14 @@
 const state = {
-    aside: false,
     modal: {
         isOpen: false,
         type: null
     },
     tasks: [],
     filteredTasks: [],
-    categories: [
-        "See All"
-    ],
+    categories: [],
     filter: {
         sort: null,
         searchQuery: null,
-        category: "See All"
+        categoryName: "See All"
     }
 }

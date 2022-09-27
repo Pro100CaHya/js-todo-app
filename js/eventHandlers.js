@@ -1,6 +1,4 @@
 const buttonMenuClickHandler = function funcButtonMenuClickHandler() {
-    setAside(!state.aside);
-
     updateAside();
 }
 

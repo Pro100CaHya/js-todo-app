@@ -1,7 +1,3 @@
-const setAside = function funcSetAside(isOpen) {
-    state.aside = isOpen;
-}
-
 const setModal = function funcSetModal(modalParams) {
     state.modal = {...modalParams};
 }
@@ -11,7 +7,7 @@ const setFilter = function funcSetFilter(filter = {}) {
 }
 
 const setCategories = function funcSetCategories(categories = []) {
-    state.categories = [...new Set([ ...state.categories, ...categories])];
+    state.categories = [...state.categories, ...categories];
 }
 
 const setTasks = function funcSetTasks(tasks = []) {
@@ -87,18 +83,18 @@ const setFilteredTasks = function funcSetFilteredTasks(tasks = state.tasks, filt
                                         ));
     }
 
-    const setCategorizedTasks = function funcSetCategorizedTasks(tasks, category) {
-        if (category === "See All") {
+    const setCategorizedTasks = function funcSetCategorizedTasks(tasks, categoryName) {
+        if (categoryName === "See All") {
             return tasks;
         }
         else {
-            return tasks.filter(task => task.category === category);
+            return tasks.filter(task => task.category === categoryName);
         }
     }
 
     const sortedTasks = setSortedTasks(tasks, filter.sort);
     const searchedTasks = setSearchedTasks(sortedTasks, filter.searchQuery);
-    const categorizedTasks = setCategorizedTasks(searchedTasks, filter.category);
+    const categorizedTasks = setCategorizedTasks(searchedTasks, filter.categoryName);
 
     state.filteredTasks = categorizedTasks;
 }

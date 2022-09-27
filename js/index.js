@@ -53,6 +53,25 @@ const INITIAL_TASKS = [
         deadline: "2022-08-23 00:00",
         category: "Lifestyle"
     }
+];
+
+const INITIAL_CATEGORIES = [
+    {
+        id: 0,
+        name: "See All"
+    },
+    {
+        id: 1,
+        name: "Travelling"
+    },
+    {
+        id: 2,
+        name: "Hobby"
+    },
+    {
+        id: 3,
+        name: "Lifestyle"
+    }
 ]
 
 const debounce = function funcDebounce(func, ms) {
@@ -94,25 +113,18 @@ const $$ = function funcQuerySelectorAll(selector) {
 }
 
 const state = {
-    aside: false,
     modal: {
         isOpen: false,
         type: null
     },
     tasks: [],
     filteredTasks: [],
-    categories: [
-        "See All"
-    ],
+    categories: [],
     filter: {
         sort: null,
         searchQuery: null,
-        category: "See All"
+        categoryName: "See All"
     }
-}
-
-const setAside = function funcSetAside(isOpen) {
-    state.aside = isOpen;
 }
 
 const setModal = function funcSetModal(modalParams) {
@@ -124,7 +136,7 @@ const setFilter = function funcSetFilter(filter = {}) {
 }
 
 const setCategories = function funcSetCategories(categories = []) {
-    state.categories = [...new Set([ ...state.categories, ...categories])];
+    state.categories = [...state.categories, ...categories];
 }
 
 const setTasks = function funcSetTasks(tasks = []) {
@@ -200,18 +212,18 @@ const setFilteredTasks = function funcSetFilteredTasks(tasks = state.tasks, filt
                                         ));
     }
 
-    const setCategorizedTasks = function funcSetCategorizedTasks(tasks, category) {
-        if (category === "See All") {
+    const setCategorizedTasks = function funcSetCategorizedTasks(tasks, categoryName) {
+        if (categoryName === "See All") {
             return tasks;
         }
         else {
-            return tasks.filter(task => task.category === category);
+            return tasks.filter(task => task.category === categoryName);
         }
     }
 
     const sortedTasks = setSortedTasks(tasks, filter.sort);
     const searchedTasks = setSearchedTasks(sortedTasks, filter.searchQuery);
-    const categorizedTasks = setCategorizedTasks(searchedTasks, filter.category);
+    const categorizedTasks = setCategorizedTasks(searchedTasks, filter.categoryName);
 
     state.filteredTasks = categorizedTasks;
 }
@@ -228,16 +240,9 @@ const $selectSort = $("[data-action='sortTasks']");
 const $todo = $("[data-name='todo']");
 
 const updateAside = function funcUpdateAside() {
-    if (state.aside) {
-        $aside.classList.add("aside_active");
-        $buttonMenu.classList.add("header__button_active")
-        $todo.classList.add("todo_disabled");
-    }
-    else {
-        $aside.classList.remove("aside_active");
-        $buttonMenu.classList.remove("header__button_active")
-        $todo.classList.remove("todo_disabled");
-    }
+        $aside.classList.toggle("aside_active");
+        $buttonMenu.classList.toggle("header__button_active")
+        $todo.classList.toggle("todo_disabled");
 }
 
 const updateList = function funcUpdateList() {
@@ -344,7 +349,7 @@ const updateList = function funcUpdateList() {
                 </div>
             </div>
             ${getTaskDescription(elem.description)}
-        `
+        `;
 
         return htmlLayout;
     }
@@ -374,6 +379,7 @@ const updateList = function funcUpdateList() {
         updateList();
     }
 
+    console.log("Filter:", state.filter);
     console.log("Tasks:", state.filteredTasks);
 
     $list.innerHTML = ``;
@@ -395,9 +401,10 @@ const updateList = function funcUpdateList() {
 
 const updateAsideNav = function funcUpdateAsideNav() {
     const buttonCategoryHandler = function funcButtonCategoryHandler() {
-        const category = this.getAttribute("data-name");
+        const categoryId = parseInt(this.getAttribute("data-id"));
+        const categoryName = state.categories.find((elem) => elem.id === categoryId).name;
 
-        setFilter({ category });
+        setFilter({ categoryName });
         setFilteredTasks();
         updateAsideNav();
         updateList();
@@ -406,20 +413,20 @@ const updateAsideNav = function funcUpdateAsideNav() {
     const buttonAddCategoryHandler = function funcButtonAddCategoryHandler() {
         const buttonConfirmHandler = function funcButtonConfirmHandler() {
             $tag.innerText = "";
-            const categoryName = $inputCategory.value;
-            const categoryNameIsEmpty = checkStrForEmpty(categoryName);
-            const categoryIsValid = (categoryNameIsEmpty
-                || !!(state.categories.find(category => category === categoryName)));
+            const name = $inputCategory.value;
+            const nameIsEmpty = checkStrForEmpty(name);
+            const nameIsValid = (nameIsEmpty
+                || !!(state.categories.find(category => category.name === name)));
 
-            if (categoryIsValid) {
-                $tag.innerText = categoryNameIsEmpty === true
+            if (nameIsValid) {
+                $tag.innerText = nameIsEmpty === true
                     ? "Empty input"
                     : "Input category already exists";
 
                 $asideColumn.append($tag);
             }
             else {
-                setCategories([categoryName]);
+                setCategories([{name, id: Date.now()}]);
                 updateAsideNav();
             }
         }
@@ -456,19 +463,19 @@ const updateAsideNav = function funcUpdateAsideNav() {
 
         $inputCategory.focus();
         $buttonConfirm.addEventListener("click", buttonConfirmHandler);
-        $buttonCancel.addEventListener("click", buttonCancelHandler)
+        $buttonCancel.addEventListener("click", buttonCancelHandler);
     }
 
     $asideNav.innerHTML = ``;
     state.categories.forEach((category) => {
         const $taskItem = document.createElement("button");
         $taskItem.classList.add("aside__button", "button", "button_size_s", "button_style_transparent");
-        if (category === state.filter.category) {
+        if (category.name === state.filter.categoryName) {
             $taskItem.classList.add("button_active");
         }
-        $taskItem.setAttribute("data-name", category);
+        $taskItem.setAttribute("data-id", category.id);
         $taskItem.setAttribute("data-action", "setCategory");
-        $taskItem.innerText = category;
+        $taskItem.innerHTML = `${category.name}`;
         $asideNav.append($taskItem);
     });
 
@@ -482,7 +489,7 @@ const updateAsideNav = function funcUpdateAsideNav() {
     const $buttonCategory = $$("[data-action='setCategory']");
     const $todoSubtitle = $("[data-name='subtitle']");
 
-    $todoSubtitle.innerText = state.filter.category;
+    $todoSubtitle.innerText = state.filter.categoryName;
     $buttonCategory.forEach((button) => button.addEventListener("click", buttonCategoryHandler));
     $buttonAddCategory.addEventListener("click", buttonAddCategoryHandler);
 }
@@ -513,13 +520,11 @@ const openModal = function funcOpenModal(task) {
     }
 
     const setCategory = function funcSetCategory() {
-        let selectedCategoryId;
-
-        state.categories.forEach((category, index) => {
-            if (category === task.category) {
-                selectedCategoryId = index;
-            }
-        })
+        let selectedCategoryId = state
+                                    .categories
+                                    .findIndex((category) => {
+                                        return category.name === task.category;
+                                    });
 
         $selectCategory.selectedIndex = selectedCategoryId;
     }
@@ -528,11 +533,11 @@ const openModal = function funcOpenModal(task) {
         const getCategories = function funcGetCategories() {
             let options = "";
             
-            state.categories.filter((category) => category !== "See All")
+            state.categories.filter((category) => category.name !== "See All")
                             .forEach((category) => {
                                 options += `
-                                    <option value="${category}">
-                                        ${category}
+                                    <option value="${category.name}" data-id=${category.id}>
+                                        ${category.name}
                                     </option>
                                 `
                             });
@@ -563,6 +568,8 @@ const openModal = function funcOpenModal(task) {
                     <input data-name="inputName"
                         class="window__input input input_style_white input_size_s"
                         type="text" data-name="inputName">
+                    <p class="window__label" data-name="labelName">
+                    </p>
                 </div>
                 <div class="window__row" data-name="description">
                     <h2 class="window__subtitle">
@@ -572,6 +579,8 @@ const openModal = function funcOpenModal(task) {
                         class="window__input-div input input_style_white input_size_s" type="text"
                         data-name="inputDescription">
                     </div>
+                    <p class="window__label" data-name="labelDescription">
+                    </p>
                 </div>
                 <div class="window__row flex">
                     <div class="window__column" data-name="setPriority">
@@ -639,6 +648,8 @@ const openModal = function funcOpenModal(task) {
                         </h2>
                         <input type="text" class="window__input input input_style_white input_size_s"
                             placeholder="YYYY-MM-DD" data-name="inputDeadline" maxlength="10">
+                        <p class="window__label window__label_size_m" data-name="labelDeadline">
+                        </p>
                     </div>
                     <div class="window__column" data-name="category">
                         <h2 class="window__subtitle">
@@ -648,6 +659,8 @@ const openModal = function funcOpenModal(task) {
                             <option value="default" selected disabled>Categories</option>
                             ${getCategories()}
                         </select>
+                        <p class="window__label" data-name="labelCategory">
+                        </p>
                     </div>
                 </div>
                 <div class="window__row">
@@ -674,46 +687,32 @@ const openModal = function funcOpenModal(task) {
         const isCategoryNoSelected = category === "default";
 
         const $labels = $$(".window__label");
-
-        if ($labels.length !== 0) {
-            $labels.forEach((elem) => elem.remove());
-        }
+        $labels.forEach((elem) => elem.innerText = "");
 
         let taskIsValid = true;
 
-        if (isNameEmpty) {
-            const $label = document.createElement("p");
-            $label.classList.add("window__label");
+        if (isNameEmpty || name.length > 64) {
+            const $label = document.querySelector("[data-name='labelName']");
             $label.innerText = "Enter name, please (max 64 symbols)";
-            $divName.append($label);
             taskIsValid = false;
         }
 
-        if (isDescriptionEmpty) {
-            const $label = document.createElement("p");
-            $label.classList.add("window__label");
-            $label.innerHTML = "Enter description, please (max 256 symbols)";
-            $divDescription.append($label);
+        if (isDescriptionEmpty || description.length > 256) {
+            const $label = document.querySelector("[data-name='labelDescription']");
+            $label.innerText = "Enter description, please (max 256 symbols)";
             taskIsValid = false;
         }
 
         if (isDeadlineInvalid) {
-            const $label = document.createElement("p");
-            $label.classList.add("window__label");
-            $label.innerHTML = `
-                Enter deadline, please
-                <br>
-                (valid format: YYYY-MM-DD)
-            `;
-            $divDeadline.append($label);
+            const $label = document.querySelector("[data-name='labelDeadline']");
+            $label.innerText = `Enter deadline, please
+            (valid format: YYYY-MM-DD)`;
             taskIsValid = false;
         }
 
         if (isCategoryNoSelected) {
-            const $label = document.createElement("p");
-            $label.classList.add("window__label");
-            $label.innerHTML = "Choose the category, please";
-            $divCategory.append($label);
+            const $label = document.querySelector("[data-name='labelCategory']");
+            $label.innerText = "Choose the category, please";
             taskIsValid = false;
         }
 
@@ -764,10 +763,6 @@ const openModal = function funcOpenModal(task) {
 
     const $buttonConfirm = $("[data-action='confirm']");
     const $buttonClose = $("[data-action='closeModal']");
-    const $divName = $("[data-name='name']");
-    const $divDescription = $("[data-name='description']");
-    const $divDeadline = $("[data-name='deadline']");
-    const $divCategory = $("[data-name='category']");
     const $inputName = $("[data-name='inputName']");
     const $inputDescription = $("[data-name='inputDescription']");
     const $inputPriority = $$("[data-name='inputPriority']");
@@ -788,8 +783,6 @@ const openModal = function funcOpenModal(task) {
 }
 
 const buttonMenuClickHandler = function funcButtonMenuClickHandler() {
-    setAside(!state.aside);
-
     updateAside();
 }
 
@@ -822,7 +815,7 @@ $inputSearch.addEventListener("input", debounce(searchInputHandler, 500));
 (function main() {
     setTasks(INITIAL_TASKS);
     setFilteredTasks();
-    setCategories(state.tasks.map(task => task.category));
+    setCategories(INITIAL_CATEGORIES);
     updateAsideNav();
     updateList();
 })();
